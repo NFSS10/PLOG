@@ -13,19 +13,52 @@ board([
 ]).
 
 
+p1Set([
+	[[b3,r3,g3],
+	[b2,r2,g2],
+	[b1,r1,g1]]
+	]).
 
-%print the board
+p2Set([
+	[[b3,r3,g3],
+	[b2,r2,g2],
+	[b1,r1,g1]]
+	]).	
+
+
+p3Set([
+	[[b3,r3,g3],
+	[b2,r2,g2],
+	[b1,r1,g1]]
+	]).
+
+p4Set([
+	[[b3,r3,g3],
+	[b2,r2,g2],
+	[b1,r1,g1]]
+	]).		
+
+do(X):- write('xxxxxx').
+
+coiso(0):- do(X).
+coiso(X):- X \== 3, dooutro.
+
+dooutro :- write('*+').
+
+%print the board //TODO ajusatar so para o set e so para o board
 print_board([]).
 print_board([Lin|Rest]):-
-	print_line(Lin),
+	print_line(Lin,0),
 	print_board(Rest).
 
 %Print 1 line of the board
-print_line([]):- write('----------------------------------'),nl.
-print_line([Elem|Rest]):-
+print_line([],X):- write('----------------------------------'),nl.
+print_line([Elem|Rest],X):-
 	printaux(Elem),
-	write('|'),nl,
-	print_line(Rest).
+	write('|'),
+		coiso(X),nl, %imprimir aqui as do lado direito, dar 1n e as do lado esquerdo
+		X1 is X+1,
+	print_line(Rest,X1).
 
 %print the set of pieces in a position
 printaux([]).
@@ -46,6 +79,8 @@ translate(n1,'|       -- ').
 
 % Display the board
 display :- nl, write('----------------------------------'),nl
+			,p1Set(Y), print_board(Y)
+			,write('----------------------------------'),nl
 			, board(X), print_board(X).
 
 
