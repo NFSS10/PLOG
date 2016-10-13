@@ -7,9 +7,9 @@ board([
 	[p2,b2,g2],
 	[p1,b1,g1]],
 	
-	[[r3,n,n],
-	[n,r2,n],
-	[n,n,r1]]
+	[[r3,n3,n3],
+	[n2,r2,n2],
+	[n1,n1,r1]]
 ]).
 
 
@@ -21,14 +21,14 @@ print_board([Lin|Rest]):-
 	print_board(Rest).
 
 %Print 1 line of the board
-print_line([]):- nl.
+print_line([]):- write('----------------------------------'),nl.
 print_line([Elem|Rest]):-
 	printaux(Elem),
-	nl,
+	write('|'),nl,
 	print_line(Rest).
 
 %print the set of pieces in a position
-printaux([]) :- write('   ').
+printaux([]).
 printaux([X|Rest]):-
 	translate(X, Plem),
 	write(Plem),
@@ -37,13 +37,16 @@ printaux([X|Rest]):-
 
 
 % Translate the board to the displaying symbols
-translate(r3,'R()'). translate(g3,'G()'). translate(b3,'B()'). translate(p3,'P()'). 
-translate(r2,'RO'). translate(g2,'GO'). translate(b2,'BO'). translate(p2,'PO'). 
-translate(r1,'R*'). translate(g1,'G*'). translate(b1,'B*'). translate(p1,'P*').
-translate(n,'  '). 
+translate(r3,'| R()      '). translate(g3,'| G()      '). translate(b3,'| B()      '). translate(p3,'| P()      '). 
+translate(r2,'|    RO    '). translate(g2,'|    GO    '). translate(b2,'|    BO    '). translate(p2,'|    PO    '). 
+translate(r1,'|       R* '). translate(g1,'|       G* '). translate(b1,'|       B* '). translate(p1,'|       P* ').
+translate(n3,'| --       '). 
+translate(n2,'|    --    '). 
+translate(n1,'|       -- ').
 
 % Display the board
-display :- nl, board(X), print_board(X).
+display :- nl, write('----------------------------------'),nl
+			, board(X), print_board(X).
 
 
 
