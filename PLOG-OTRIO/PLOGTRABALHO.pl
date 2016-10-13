@@ -1,3 +1,5 @@
+:- use_module(library(lists)).
+
 board([
 	[[b3,r3,g3],
 	[b2,r2,g2],
@@ -32,13 +34,16 @@ p3Set([
 	[b1,r1,g1]]
 	]).
 
+
 p4Set([
 	[[b3,r3,g3],
 	[b2,r2,g2],
 	[b1,r1,g1]]
 	]).		
 
-do(X):- write('xxxxxx').
+	
+	
+do(X):- printSet34B(V,X),write(V). %//TODO colocar displaySetRow....
 
 coiso(0):- do(X).
 coiso(X):- X \== 3, dooutro.
@@ -55,7 +60,7 @@ print_board([Lin|Rest]):-
 print_line([],X):- write('----------------------------------'),nl.
 print_line([Elem|Rest],X):-
 	printaux(Elem),
-	write('|'),
+	write('|'), 
 		coiso(X),nl, %imprimir aqui as do lado direito, dar 1n e as do lado esquerdo
 		X1 is X+1,
 	print_line(Rest,X1).
@@ -83,6 +88,14 @@ display :- nl, write('----------------------------------'),nl
 			,write('----------------------------------'),nl
 			, board(X), print_board(X).
 
+
+			
+
+			
+	
+
+%v2 =  list with pieces ordered by size, (N=0 -> big, N=1 -> medium, N=2 -> small)
+printSet34B(V2,N) :- p3Set(X), nth0(0,X,V), nth0(N,V,V2).
 
 
 
