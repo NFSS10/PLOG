@@ -97,6 +97,38 @@ display :- nl, write('----------------------------------'),nl
 %v2 =  list with pieces ordered by size, (N=0 -> big, N=1 -> medium, N=2 -> small)
 printSet34B(V2,N) :- p3Set(X), nth0(0,X,V), nth0(N,V,V2).
 
+escolhe(V2,N,N1) :- board(X), nth0(N1,X,V), nth0(N,V,V2).
 
 
 
+
+%TODO TALVEZ MELHOR, alternativo, talvez mais facil, visto ter um problema em imprimir de lado
+display2 :- nl, write('----------------------------------'),nl,
+			escolhe(X,0,0),
+			write(X), nl,
+			escolhe(Y,1,0),
+			write(Y), nl,
+			escolhe(Z,2,0),
+			write(Z), nl,
+			nl,
+			escolhe(A,0,1),
+			write(A), nl,
+			escolhe(B,1,1),
+			write(B), nl,
+			escolhe(C,2,1),
+			write(C), nl,
+			nl,
+			escolhe(E,0,2),
+			write(E), nl,
+			escolhe(F,1,2),
+			write(F), nl,
+			escolhe(G,2,2),
+			write(G), nl,
+			nl.
+			
+			
+			
+			
+			
+			
+			
