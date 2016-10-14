@@ -188,3 +188,4 @@ printSetP1 :- p1Set(X), nth0(N,X,T), display_bloco(T).
 printSetP2 :- p2Set(X), nth0(N,X,T), display_bloco(T).
 
 
+ 
