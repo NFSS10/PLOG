@@ -136,9 +136,9 @@ display_row([Elem|Rest]):-
 	display_row(Rest).
 
 %desenha o bloco
-display_bloco([]).
+display_bloco([]):- write('----------------------------------').
 display_bloco([Elem|Rest]):-
-	display_row(Elem),write('--- '), nl,
+	display_row(Elem),write('|'), nl,
 	display_bloco(Rest).
 	
 	
@@ -146,8 +146,10 @@ display_bloco([Elem|Rest]):-
 display_board([]).
 display_board([Board|Rest],N):-
 	escolhebloco(X,N),
+		write(N), %escrever antes
 	display_bloco(X),
-			write(N),
+	write(N), %escrever antes
+	nl, %escrever depois
 	N1 is N+1,
 	display_board(Rest,N1).
 	 
