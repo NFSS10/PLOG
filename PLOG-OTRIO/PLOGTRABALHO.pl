@@ -150,7 +150,7 @@ display_board([Board|Rest],N):-
 			write(N),
 	N1 is N+1,
 	display_board(Rest,N1).
-	
+	 
 
 
 
