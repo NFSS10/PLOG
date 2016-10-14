@@ -135,7 +135,7 @@ display_row([Elem|Rest]):-
 	display_row(Rest).
 
 %desenha o bloco
-display_bloco([], N, Pos):- write('----------------------------------').
+display_bloco([], N, Pos):- write('     |----------|+|----------|----------|----------|+|----------|').
 display_bloco([Elem|Rest], N, Pos):-
 	printSetP3(Pos,N),
 	display_row(Elem),
@@ -145,18 +145,19 @@ display_bloco([Elem|Rest], N, Pos):-
 	Pos1 is Pos +1,
 	display_bloco(Rest, N,Pos1).
 
-%desenha o bloco (so com 1 argumento)
-display_bloco([]):- write('----------------------------------').
+%desenha o bloco (so com 1 argumento, usado para os conjuntos de peças inicias)
+display_bloco([]):- write('                |||----------|----------|----------|||').
 display_bloco([Elem|Rest]):-
+	write('                ||'),
 	display_row(Elem),
-	write('|'),
+	write('|||'),
 	nl,
 	display_bloco(Rest).
 	
 	
 %ja deve funcionar
 display_board([],N).
-display_board([Board|Rest],N):-
+display_board([Board|Rest],N):-	
 	Pos is 0,
 	escolhebloco(X,N),
 	display_bloco(X, N, Pos),
@@ -172,7 +173,17 @@ teste:- escolhe(T,0,0),write(T).
 			
 teste2:- escolhe(T,0,0),display_row(T).
 
-teste3:- board(X), display_board(X,0).
+teste3:- board(X),
+	nl, write('                        A          B          C       '),
+	nl, write('                |||----------|----------|----------|||'),
+	nl, printSetP1,
+	nl, write('                |++++++++++++++++++++++++++++++++++++|'),
+	nl, write('     |----------|+|----------|----------|----------|+|----------'),
+	nl,
+	display_board(X,0),
+		write('                |++++++++++++++++++++++++++++++++++++|'),
+	nl, write('                |||----------|----------|----------|||'),
+	nl, printSetP2.
 
 teste4:-escolhebloco(X,1),display_bloco(X).
 
@@ -182,10 +193,23 @@ displayPiece(Piece) :- translate(Piece, Plem),
 
 %%%%%%%%%%%
 tprintSetP3(Elem,Tam,Pos) :- p3Set(X), nth0(0,X,V), nth0(Tam,V,V2), nth0(Pos,V2,Elem), displayPiece(Elem), write('p1').
-printSetP3(Tam,Pos) :- p3Set(X), nth0(0,X,V), nth0(Tam,V,V2), nth0(Pos,V2,Elem), displayPiece(Elem), write('||').
-printSetP4(Tam,Pos) :- write('||'), p4Set(X), nth0(0,X,V), nth0(Tam,V,V2), nth0(Pos,V2,Elem), displayPiece(Elem).
+printSetP3(Tam,Pos) :- write('  '), condPrintNum(Tam,Pos), p3Set(X), nth0(0,X,V), nth0(Tam,V,V2), nth0(Pos,V2,Elem), displayPiece(Elem), write('|+').
+printSetP4(Tam,Pos) :- write('|+'), p4Set(X), nth0(0,X,V), nth0(Tam,V,V2), nth0(Pos,V2,Elem), displayPiece(Elem).
 printSetP1 :- p1Set(X), nth0(N,X,T), display_bloco(T).
 printSetP2 :- p2Set(X), nth0(N,X,T), display_bloco(T).
 
 
+condPrintNum(X,N):- X \==1, write('   ').
+condPrintNum(1,N):-write('  '), write(N).
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
  
