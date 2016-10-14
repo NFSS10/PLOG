@@ -99,6 +99,8 @@ printSet34B(V2,N) :- p3Set(X), nth0(0,X,V), nth0(N,V,V2).
 
 escolhe(V2,N,N1) :- board(X), nth0(N1,X,V), nth0(N,V,V2).
 
+escolhebloco(V,N) :- board(X), nth0(N,X,V).
+testebloco :- escolhebloco(X,0), write(X).
 
 
 
@@ -126,9 +128,38 @@ display2 :- nl, write('----------------------------------'),nl,
 			write(G), nl,
 			nl.
 			
+%desenha uma fila da lista obtida atraves de escolhe
+display_row([]).
+display_row([Elem|Rest]):-
+	translate(Elem, Plem),
+	write(Plem),
+	display_row(Rest).
+
+%desenha o bloco
+display_bloco([]).
+display_bloco([Elem|Rest]):-
+	display_row(Elem),write('--- '), nl,
+	display_bloco(Rest).
+	
+	
+%ja deve funcionar
+display_board([]).
+display_board([Board|Rest],N):-
+	escolhebloco(X,N),
+	display_bloco(X),
+			write(N),
+	N1 is N+1,
+	display_board(Rest,N1).
+	
+
+
+
 			
+teste:- escolhe(T,0,0),write(T).
 			
-			
-			
-			
+teste2:- escolhe(T,0,0),display_row(T).
+
+teste3:- board(X), display_board(X,0).
+
+teste4:-escolhebloco(X,0),display_bloco(X).
 			
