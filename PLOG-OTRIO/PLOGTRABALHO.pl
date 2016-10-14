@@ -131,24 +131,35 @@ display2 :- nl, write('----------------------------------'),nl,
 %desenha uma fila da lista obtida atraves de escolhe
 display_row([]).
 display_row([Elem|Rest]):-
-	translate(Elem, Plem),
-	write(Plem),
+	displayPiece(Elem),
 	display_row(Rest).
 
 %desenha o bloco
+display_bloco([], N, Pos):- write('----------------------------------').
+display_bloco([Elem|Rest], N, Pos):-
+	printSetP3(Pos,N),
+	display_row(Elem),
+	printSetP4(Pos,N),
+	write('|'),
+	nl,
+	Pos1 is Pos +1,
+	display_bloco(Rest, N,Pos1).
+
+%desenha o bloco (so com 1 argumento)
 display_bloco([]):- write('----------------------------------').
 display_bloco([Elem|Rest]):-
-	display_row(Elem),write('|'), nl,
+	display_row(Elem),
+	write('|'),
+	nl,
 	display_bloco(Rest).
 	
 	
 %ja deve funcionar
-display_board([]).
+display_board([],N).
 display_board([Board|Rest],N):-
+	Pos is 0,
 	escolhebloco(X,N),
-		write(N), %escrever antes
-	display_bloco(X),
-	write(N), %escrever antes
+	display_bloco(X, N, Pos),
 	nl, %escrever depois
 	N1 is N+1,
 	display_board(Rest,N1).
@@ -163,5 +174,17 @@ teste2:- escolhe(T,0,0),display_row(T).
 
 teste3:- board(X), display_board(X,0).
 
-teste4:-escolhebloco(X,0),display_bloco(X).
-			
+teste4:-escolhebloco(X,1),display_bloco(X).
+
+
+displayPiece(Piece) :- translate(Piece, Plem),
+	write(Plem).
+
+%%%%%%%%%%%
+tprintSetP3(Elem,Tam,Pos) :- p3Set(X), nth0(0,X,V), nth0(Tam,V,V2), nth0(Pos,V2,Elem), displayPiece(Elem), write('p1').
+printSetP3(Tam,Pos) :- p3Set(X), nth0(0,X,V), nth0(Tam,V,V2), nth0(Pos,V2,Elem), displayPiece(Elem), write('||').
+printSetP4(Tam,Pos) :- write('||'), p4Set(X), nth0(0,X,V), nth0(Tam,V,V2), nth0(Pos,V2,Elem), displayPiece(Elem).
+printSetP1 :- p1Set(X), nth0(N,X,T), display_bloco(T).
+printSetP2 :- p2Set(X), nth0(N,X,T), display_bloco(T).
+
+
