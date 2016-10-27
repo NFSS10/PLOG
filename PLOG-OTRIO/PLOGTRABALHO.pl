@@ -128,7 +128,12 @@ display:- board(X),
 
  
  
- 
+%TODO: Selecionar jogador
+%TODO: Selecionar peca a mover
+%TODO: Verificar se movimento e valido
+%TODO: Movimentar peca
+%TODO: Verificar estado do jogo
+%TODO: Display de estado do jogo, ganhas-te n é possivel mover, etc
  
  
  
