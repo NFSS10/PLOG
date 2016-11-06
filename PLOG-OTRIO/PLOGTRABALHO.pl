@@ -159,4 +159,10 @@ display:- board(X),
 % depois de obter as coordenadas chamar metodo que verifique se a jogada e possivel e agir conforme, ...
  
  
+ %%TESTE condicao de vencer
+ win(Board) :- 	winLineSame(Board), %linha mesmo tamanho
+ 		winLineAsc(Board), %linha tamanho ascendente
+ 		winLineDsc(Board), %linha tamanho descendente
+		winConc(Board). %concentrica
  
+
