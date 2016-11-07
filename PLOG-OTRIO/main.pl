@@ -38,4 +38,17 @@
  %		winLineDsc(Board), %linha tamanho descendente
 %		winConc(Board). %concentrica
  
+teste :-
+display, boardaa(X),asserta(board(X)), display.
+
+
+%%%%%%%%%%%%%%%%%%%%CODIGO MA FRIEEEEEEEEEEEEEEEEND
+teste2 :-	write('LER'),nl,
+			write('A: '),
+			read(A),
+			write('B: '),
+			read(B),
+			nl, write(A),
+			nl, write(B),
+			nl.
 

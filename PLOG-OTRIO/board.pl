@@ -1,4 +1,9 @@
 :- use_module(library(lists)).
+
+:-dynamic(board/1).
+:-dynamic(p1Set/1).
+:-dynamic(p2Set/1).
+
 %Tabuleiro
 board([
 	[[b3,r3,g3],
@@ -13,6 +18,21 @@ board([
 	[n2,r2,n2],
 	[n1,n1,r1]]
 ]).
+
+boardaa([
+	[[n3,n3,n3],
+	[n2,n2,n2],
+	[n1,n1,n1]],
+	
+	[[n3,n3,n3],
+	[n2,n2,n2],
+	[n1,n1,n1]],
+	
+	[[n3,n3,n3],
+	[n2,n2,n2],
+	[n1,n1,r1]]
+]).
+
 
 %Conjunto das peças iniciais dos jogadores
 %Conjunto das peças do jogador 1
