@@ -5,6 +5,15 @@ condVitoria([r2,r2,r2]).
 condVitoria([b1,b1,b1]).
 condVitoria([r1,r1,r1]).
 
+condVitoria([[b3,_,_],[b2,_,_],[b1,_,_]]).
+condVitoria([[_,b3,_],[_,b2,_],[_,b1,_]]).
+condVitoria([[_,_,b3],[_,_,b2],[_,_,b1]]).
+condVitoria([[r3,_,_],[r2,_,_],[r1,_,_]]).
+condVitoria([[_,r3,_],[_,r2,_],[_,r1,_]]).
+condVitoria([[_,_,r3],[_,_,r2],[_,_,r1]]).
+
+
+
 
 %Tamanho: Tam, 0 grande, 1 medio, 2 pequeno
 %Linha: Lin, 0, 1 ou 2
@@ -16,7 +25,15 @@ winCondConcentric(Tam,Lin) :- selectLinhaporTamHor(Tam, Lin, PiecesList)
 							,nl, write('VITORIAAAAAAAAAAAAA')
 							,write(PiecesList).
 %Caso n tenha ganho, passa a frente
-winCondConcentric(Tam,Lin).							
+winCondConcentric(Tam,Lin).
+
+winCondConcentricaaaaa(Lin) :- escolhebloco(BlocoLinha,Lin)
+							,condVitoria(BlocoLinha)
+							,!
+							,nl, write('VITORIAAAAAAAAAAAAA')
+							,write(BlocoLinha).
+%Caso n tenha ganho, passa a frente
+winCondConcentricaaaaa(Lin).							
 							
 							
 verifica :- winCondConcentric(0,0)
