@@ -19,20 +19,6 @@ board([
 	[n1,n1,r1]]
 ]).
 
-boardaa([
-	[[n3,n3,n3],
-	[n2,n2,n2],
-	[n1,n1,n1]],
-	
-	[[n3,n3,n3],
-	[n2,n2,n2],
-	[n1,n1,n1]],
-	
-	[[n3,n3,n3],
-	[n2,n2,n2],
-	[n1,n1,r1]]
-]).
-
 
 %Conjunto das peças iniciais dos jogadores
 %Conjunto das peças do jogador 1

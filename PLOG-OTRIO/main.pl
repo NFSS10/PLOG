@@ -1,4 +1,4 @@
-:- consult(draw).
+:- consult(interface).
 
  
 %TODO: Selecionar jogador
@@ -38,8 +38,8 @@
  %		winLineDsc(Board), %linha tamanho descendente
 %		winConc(Board). %concentrica
  
-teste :-
-display, boardaa(X),asserta(board(X)), display.
+%teste :-
+%display, boardaa(X),asserta(board(X)), display.
 
 
 %%%%%%%%%%%%%%%%%%%%CODIGO MA FRIEEEEEEEEEEEEEEEEND
