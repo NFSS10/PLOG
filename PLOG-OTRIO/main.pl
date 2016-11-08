@@ -65,48 +65,46 @@ replace([H|T], I, X, [H|R]):- I > 0,
 
 %Coloca peca pequena no tabuleiro
 							  
-colocarpequena(X,Y,P):-                	board(ListaSai),
+colocarpequena(X,Y,P,ListaSai,ListaSai2):-           
 										nth0(Y,ListaSai,Elemento,Resto), 
 										nth0(2,Elemento,Elemento2,Resto2),
 										nth0(X,Elemento2,Elemento3,Resto3),
-										Elemento3=n1,!,
+										Elemento3=n1,
 										replace(Elemento2, X, P, Lis),
 										replace(Elemento,2,Lis,List),
-										replace(ListaSai,Y,List,ListaSai2),
-										asserta(board(ListaSai2)),
-										display.							  
+										replace(ListaSai,Y,List,ListaSai2).
+																	  
 							  
-colocarpequena(X,Y,P):- nl, write('Posicao ocupada!'),fail.
+colocarpequena(X,Y,P,ListaSai,ListaSai2):- nl, write('Posicao ocupada!'),fail.
 							  
 %Coloca peca media no tabuleiro
 							  
-colocarmedia(X,Y,P):-                	board(ListaSai),
+colocarmedia(X,Y,P,ListaSai,ListaSai2):-        
 										nth0(Y,ListaSai,Elemento,Resto), 
 										nth0(1,Elemento,Elemento2,Resto2),
 										nth0(X,Elemento2,Elemento3,Resto3),
-										Elemento3=n2,!,
+										Elemento3=n2,
 										replace(Elemento2, X, P, Lis),
 										replace(Elemento,1,Lis,List),
-										replace(ListaSai,Y,List,ListaSai2),
-										asserta(board(ListaSai2)),
-										display.
+										replace(ListaSai,Y,List,ListaSai2).
+									
 
-colocarmedia(X,Y,P):- nl, write('Posicao ocupada!'),fail.
+colocarmedia(X,Y,P,ListaSai,ListaSai2):- nl, write('Posicao ocupada!'),fail.
 
 %Coloca peca grande no tabuleiro
 
-colocargrande(X,Y,P):-					board(ListaSai),
+colocargrande(X,Y,P,ListaSai,ListaSai2):-
 										nth0(Y,ListaSai,Elemento,Resto), 
 										nth0(0,Elemento,Elemento2,Resto2),
 										nth0(X,Elemento2,Elemento3,Resto3),
-										Elemento3=n3,!,
+										Elemento3=n3,
 										replace(Elemento2, X, P, Lis),
 										replace(Elemento,0,Lis,List),
-										replace(ListaSai,Y,List,ListaSai2),
-										asserta(board(ListaSai2)),
-										display.
+										replace(ListaSai,Y,List,ListaSai2).
 										
-colocargrande(X,Y,P):- nl, write('Posicao ocupada!'),fail.
+									
+										
+colocargrande(X,Y,P,ListaSai,ListaSai2):- nl, write('Posicao ocupada!'),fail.
 
 getcolor(Peca,Cor):- atom_chars(Peca,Char),
 					nth0(0,Char,Cor,Resto2).
@@ -119,21 +117,37 @@ getsize(Peca,Tamanho):- atom_chars(Peca,Char),
 
 jogadajogador1(X,Y,Peca):-getsize(Peca,Size),
 						 Size='1',!,
-						 p1Set(Set),
-						 verificapecapequena(Set,Peca),
-						 colocarpequena(X,Y,Peca).
+						 p1Set(Set),!,
+						 board(Board),!,
+						 verificapecapequena(Set,Peca),!,
+						 removepecapequena(Set,Peca,Newset),!,
+						 colocarpequena(X,Y,Peca,Board,Newboard),
+						 asserta(board(Newboard)),
+						 asserta(p1Set(Newset)),
+						 display.
 						 
 jogadajogador1(X,Y,Peca):-getsize(Peca,Size),
 						 Size='2',!,
-						 p1Set(Set),
-						 verificapecamedia(Set,Peca),
-						 colocarmedia(X,Y,Peca).
+						 p1Set(Set),!,
+						 board(Board),!,
+						 verificapecamedia(Set,Peca),!,
+						 removepecamedia(Set,Peca,Newset),!,
+						 colocarmedia(X,Y,Peca,Board,Newboard),
+						 asserta(board(Newboard)),
+						 asserta(p1Set(Newset)),
+						 display.
 						 
 jogadajogador1(X,Y,Peca):-getsize(Peca,Size),
 						 Size='3',!,
-						 p1Set(Set),
-						 verificapecagrande(Set,Peca),
-						 colocargrande(X,Y,Peca).
+						 p1Set(Set),!,
+						 board(Board),!,
+						 verificapecagrande(Set,Peca),!,
+						 removepecagrande(Set,Peca,Newset),!,
+						 colocargrande(X,Y,Peca,Board,Newboard),
+						 asserta(board(Newboard)),
+						 asserta(p1Set(Newset)),
+						 display.
+						 
 						 
 
 
@@ -141,7 +155,7 @@ jogadajogador1(X,Y,Peca):-getsize(Peca,Size),
 verificapecagrande(Set,Peca):- 
 							   nth0(0,Set,Lista,Resto2),
 							   nth0(0,Lista,Lista2,Resto3),
-							   member(Peca,Lista2),!.
+							   member(Peca,Lista2).
 							   
 verificapecagrande(Set,Peca):- nl, write('Peca indisponivel para jogar'),fail.
 							   
@@ -161,3 +175,33 @@ verificapecapequena(Set,Peca):- nth0(0,Set,Lista,Resto2),
 							   member(Peca,Lista2),!.
 							   
 verificapecapequena(Set,Peca):- nl, write('Peca indisponivel para jogar'),fail.
+
+%Modifica a primeira ocurrencia
+
+changeFst(Old,[Old|Olds],New,[New|Olds]).
+changeFst(Old,[E|Olds],New,[E|News]):-
+   dif(Old, E),
+   changeFst(Old,Olds,New,News).
+
+ 
+%Remove peca do set 
+
+removepecagrande(Set,Peca,Newset):- nth0(0,Set,Lista,Resto2),
+							 nth0(0,Lista,Lista2,Resto3),
+							 changeFst(Peca,Lista2,n3,Newlist),
+							 replace(Lista, 0, Newlist, NNewlist),
+							 replace(Set, 0, NNewlist, Newset).
+
+removepecamedia(Set,Peca,Newset):- nth0(0,Set,Lista,Resto2),
+							 nth0(1,Lista,Lista2,Resto3),
+							 changeFst(Peca,Lista2,n2,Newlist),
+							 replace(Lista, 1, Newlist, NNewlist),
+							 replace(Set, 0, NNewlist, Newset).
+							 
+removepecapequena(Set,Peca,Newset):- nth0(0,Set,Lista,Resto2),
+							 nth0(2,Lista,Lista2,Resto3),
+							 changeFst(Peca,Lista2,n1,Newlist),
+							 replace(Lista, 2, Newlist, NNewlist),
+							 replace(Set, 0, NNewlist, Newset).
+							
+							 

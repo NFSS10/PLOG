@@ -6,45 +6,45 @@
 
 %Tabuleiro
 board([
-	[[b3,r3,g3],
-	[b2,r2,g2],
-	[b1,r1,g1]],
+	[[n3,n3,n3],
+	[n2,n2,n2],
+	[n1,n1,n1]],
 	
-	[[p3,b3,g3],
-	[p2,b2,g2],
-	[p1,b1,g1]],
+	[[n3,n3,n3],
+	[n2,n2,n2],
+	[n1,n1,n1]],
 	
-	[[r3,n3,n3],
-	[n2,r2,n2],
-	[n1,n1,r1]]
+	[[n3,n3,n3],
+	[n2,n2,n2],
+	[n1,n1,n1]]
 ]).
 
 
 %Conjunto das peças iniciais dos jogadores
 %Conjunto das peças do jogador 1
 p1Set([
-	[[b3,r3,g3],
-	[b2,r2,g2],
-	[b1,r1,g1]]
+	[[r3,r3,r3],
+	[r2,r2,r2],
+	[r1,r1,r1]]
 	]).
 	
 %Conjunto das peças do jogador 2
 p2Set([
-	[[b3,r3,g3],
-	[b2,r2,g2],
-	[b1,r1,g1]]
+	[[b3,b3,b3],
+	[b2,b2,b2],
+	[b1,b1,b1]]
 	]).	
 
 %Conjunto das peças do jogador 3
 p3Set([
-	[[b3,r3,g3],
-	[b2,r2,g2],
-	[b1,r1,g1]]
+	[[g3,g3,g3],
+	[g2,g2,g2],
+	[g1,g1,g1]]
 	]).
 
 %Conjunto das peças do jogador 4
 p4Set([
-	[[b3,r3,g3],
-	[b2,r2,g2],
-	[b1,r1,g1]]
+	[[p3,p3,p3],
+	[p2,p2,p2],
+	[p1,p1,p1]]
 	]).		
