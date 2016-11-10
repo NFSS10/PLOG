@@ -91,7 +91,7 @@ colocarmedia(X,Y,P,ListaSai,ListaSai2):-
 
 colocarmedia(X,Y,P,ListaSai,ListaSai2):- nl, write('Posicao ocupada!'),fail.
 
-%Coloca peca grande no tabuleiro
+%Coloca peca grande na ListaSai(tabuleiro) e retorna  ListaSai2(tabueiro modificado)
 
 colocargrande(X,Y,P,ListaSai,ListaSai2):-
 										nth0(Y,ListaSai,Elemento,Resto), 
@@ -151,7 +151,7 @@ jogadajogador1(X,Y,Peca):-getsize(Peca,Size),
 						 
 
 
-%Verifica peca
+%Verifica se a peca existe no Set
 verificapecagrande(Set,Peca):- 
 							   nth0(0,Set,Lista,Resto2),
 							   nth0(0,Lista,Lista2,Resto3),
@@ -176,7 +176,7 @@ verificapecapequena(Set,Peca):- nth0(0,Set,Lista,Resto2),
 							   
 verificapecapequena(Set,Peca):- nl, write('Peca indisponivel para jogar'),fail.
 
-%Modifica a primeira ocurrencia
+%Modifica a primeira ocurrencia de Old na lista Old por New e devolve a lista New -> changeFst(Old,ListaOld,New,ListaNew).
 
 changeFst(Old,[Old|Olds],New,[New|Olds]).
 changeFst(Old,[E|Olds],New,[E|News]):-
@@ -184,24 +184,100 @@ changeFst(Old,[E|Olds],New,[E|News]):-
    changeFst(Old,Olds,New,News).
 
  
-%Remove peca do set 
+%Remove peca do Set e devolve o set modificado 
 
 removepecagrande(Set,Peca,Newset):- nth0(0,Set,Lista,Resto2),
 							 nth0(0,Lista,Lista2,Resto3),
 							 changeFst(Peca,Lista2,n3,Newlist),
 							 replace(Lista, 0, Newlist, NNewlist),
 							 replace(Set, 0, NNewlist, Newset).
-
+	
 removepecamedia(Set,Peca,Newset):- nth0(0,Set,Lista,Resto2),
 							 nth0(1,Lista,Lista2,Resto3),
 							 changeFst(Peca,Lista2,n2,Newlist),
 							 replace(Lista, 1, Newlist, NNewlist),
 							 replace(Set, 0, NNewlist, Newset).
-							 
+								
 removepecapequena(Set,Peca,Newset):- nth0(0,Set,Lista,Resto2),
 							 nth0(2,Lista,Lista2,Resto3),
 							 changeFst(Peca,Lista2,n1,Newlist),
 							 replace(Lista, 2, Newlist, NNewlist),
 							 replace(Set, 0, NNewlist, Newset).
 							
-							 
+%Lista o indice de um elemento numa lista
+
+indexOf([Element|_], Element, 0).
+indexOf([_|Tail], Element, Index):-
+  indexOf(Tail, Element, Index1),
+  Index is Index1+1.			 
+
+
+%Devolve uma lista(Bag) com os indices livres da linha
+
+listajogadasgrandelinha(Linha,Bag):- findall(Index,indexOf(Linha,n3,Index),Bag).
+
+listajogadasmedialinha(Linha,Bag):- findall(Index,indexOf(Linha,n2,Index),Bag).
+
+listajogadaspequenalinha(Linha,Bag):- findall(Index,indexOf(Linha,n1,Index),Bag).
+
+
+%interpola x com cada elemento da lista
+
+interpolate(X,[],[]).
+interpolate(X,[Element|Tail],ListaSaida):-append([],[[Element,X]],Lista),
+											interpalate(X,Tail,Lista,ListaSaida).		
+
+interpalate(_,[],List,List).
+interpalate(X,[Element|Tail],Lista,ListaSaida):-append(Lista,[[Element,X]],List),
+											interpalate(X,Tail,List,ListaSaida).											
+									
+
+%devove coordenadas livres duma linha
+
+coordenadaslivregrande0(Linha,ListaCoor) :- findall(Index,indexOf(Linha,n3,Index),Bag),
+										interpolate(0,Bag,ListaCoor).
+										
+coordenadaslivregrande1(Linha,ListaCoor) :- findall(Index,indexOf(Linha,n3,Index),Bag),
+										interpolate(1,Bag,ListaCoor).											
+								  
+coordenadaslivregrande2(Linha,ListaCoor) :- findall(Index,indexOf(Linha,n3,Index),Bag),
+										interpolate(2,Bag,ListaCoor).
+
+
+
+										
+coordenadaslivremedia0(Linha,ListaCoor) :- findall(Index,indexOf(Linha,n2,Index),Bag),
+										interpolate(0,Bag,ListaCoor).
+										
+coordenadaslivremedia1(Linha,ListaCoor) :- findall(Index,indexOf(Linha,n2,Index),Bag),
+										interpolate(1,Bag,ListaCoor).											
+								  
+coordenadaslivremedia2(Linha,ListaCoor) :- findall(Index,indexOf(Linha,n2,Index),Bag),
+										interpolate(2,Bag,ListaCoor).	
+
+
+
+coordenadaslivrepequena0(Linha,ListaCoor) :- findall(Index,indexOf(Linha,n1,Index),Bag),
+										interpolate(0,Bag,ListaCoor).
+										
+coordenadaslivrepequena1(Linha,ListaCoor) :- findall(Index,indexOf(Linha,n1,Index),Bag),
+										interpolate(1,Bag,ListaCoor).											
+								  
+coordenadaslivrepequena2(Linha,ListaCoor) :- findall(Index,indexOf(Linha,n1,Index),Bag),
+										interpolate(2,Bag,ListaCoor).											
+
+%Devolve jogadas possiveis para uma peça grande.
+
+jogadapossivelgrande(ListaJogadas):- board(Board),
+									 nth0(0,Board,Bloco1,Resto1), 
+									 nth0(0,Bloco1,Linha1,Resto2),
+									 coordenadaslivregrande0(Linha1,ListaCoor1),
+									 nth0(1,Board,Bloco2,Resto3), 
+									 nth0(0,Bloco2,Linha2,Resto4),
+									 coordenadaslivregrande1(Linha2,ListaCoor2),
+									 nth0(2,Board,Bloco3,Resto5), 
+									 nth0(0,Bloco3,Linha3,Resto6),
+									 coordenadaslivregrande2(Linha3,ListaCoor3),
+									 append(ListaCoor1,ListaCoor2,ListaMetade),
+									 append(ListaMetade,ListaCoor3,ListaJogadas).
+									 
