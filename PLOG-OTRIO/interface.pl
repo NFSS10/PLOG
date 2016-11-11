@@ -2,16 +2,16 @@
 :- consult(engine).
 
 %posicoes validas
+posicaoValidaLin(0).
 posicaoValidaLin(1).
 posicaoValidaLin(2).
-posicaoValidaLin(3).
 posicaoValidaCol(a).
 posicaoValidaCol(b).
 posicaoValidaCol(c).
 
 %Pede ao utilizador as coordenadas e recolhe as mesmas
 getCoord(Lin, Col) :- write('Insira a coordenada desejada'), nl,
-			write('Linha ("1" a "3"): '),
+			write('Linha ("0" a "2"): '),
 			read(Lin),
 			write('Coluna ("A" a "C"): '),
 			read(Col),
