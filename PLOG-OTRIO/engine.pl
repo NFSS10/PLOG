@@ -105,25 +105,94 @@ winCondLinhaMesmoTamV(Tam,Col) :- getPiece(Tam, 0,Col, Piece), append([],[Piece]
 								getPiece(Tam, 1,Col, Piece2), append(List,[Piece2],List2),
 								getPiece(Tam, 2,Col, Piece3), append(List2,[Piece3],PiecesList),
 								condVitoria(PiecesList),
-								write(PiecesList),
-								%!,
+								!,
 								msgVitoria(PiecesList).
 winCondLinhaMesmoTamV(Tam,Lin).
 
 
-ver :-	winCondLinhaMesmoTamV(0,0),
-		winCondLinhaMesmoTamV(0,1),
-		winCondLinhaMesmoTamV(0,2),
-		winCondLinhaMesmoTamV(1,0),
-		winCondLinhaMesmoTamV(1,1),
-		winCondLinhaMesmoTamV(1,2),
-		winCondLinhaMesmoTamV(2,0),
-		winCondLinhaMesmoTamV(2,1),
-		winCondLinhaMesmoTamV(2,2).
+
+
+winCondLinhaDifV(Col) :- getPiece(0, 0,Col, Piece), append([],[Piece],List),
+								getPiece(1, 1,Col, Piece2), append(List,[Piece2],List2),
+								getPiece(2, 2,Col, Piece3), append(List2,[Piece3],PiecesList),
+								condVitoria(PiecesList),
+								!,
+								msgVitoria(PiecesList).
+winCondLinhaDifV(Col).
+
+
+
+winCondLinhaDifHA(Lin) :- getPiece(0, Lin,0, Piece), append([],[Piece],List),
+								getPiece(1, Lin,1, Piece2), append(List,[Piece2],List2),
+								getPiece(2, Lin,2, Piece3), append(List2,[Piece3],PiecesList),
+								condVitoria(PiecesList),
+								!,
+								msgVitoria(PiecesList).
+winCondLinhaDifHA(Lin).
 
 
 
 
+winCondLinhaDifHB(Lin) :- getPiece(0, Lin,2, Piece), append([],[Piece],List),
+								getPiece(1, Lin,1, Piece2), append(List,[Piece2],List2),
+								getPiece(2, Lin,0, Piece3), append(List2,[Piece3],PiecesList),
+								condVitoria(PiecesList),
+								!,
+								msgVitoria(PiecesList).
+winCondLinhaDifHB(Lin).
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+verLinhaIgualV :-	winCondLinhaMesmoTamV(0,0),
+					winCondLinhaMesmoTamV(0,1),
+					winCondLinhaMesmoTamV(0,2),
+					winCondLinhaMesmoTamV(1,0),
+					winCondLinhaMesmoTamV(1,1),
+					winCondLinhaMesmoTamV(1,2),
+					winCondLinhaMesmoTamV(2,0),
+					winCondLinhaMesmoTamV(2,1),
+					winCondLinhaMesmoTamV(2,2).	
+					
+verLinhaDifV :- winCondLinhaDifV(0),
+				winCondLinhaDifV(1),
+				winCondLinhaDifV(2),
+				winCondLinhaDifV(0),
+				winCondLinhaDifV(1),
+				winCondLinhaDifV(2).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+				
+verLinhaIgualH :-	winCondLinhaMesmoTamH(0,0),
+					winCondLinhaMesmoTamH(0,1),
+					winCondLinhaMesmoTamH(0,2),
+					winCondLinhaMesmoTamH(1,0),
+					winCondLinhaMesmoTamH(1,1),
+					winCondLinhaMesmoTamH(1,2),
+					winCondLinhaMesmoTamH(2,0),
+					winCondLinhaMesmoTamH(2,1),
+					winCondLinhaMesmoTamH(2,2).
+
+verLinhaDifH :- winCondLinhaDifHB(0),
+				winCondLinhaDifHB(1),
+				winCondLinhaDifHB(2),
+				winCondLinhaDifHA(0),
+				winCondLinhaDifHA(1),
+				winCondLinhaDifHA(2).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+verConcentrica :- winCondConcentrica(0),
+					winCondConcentrica(1),
+					winCondConcentrica(2).
+					
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+verSeGanhou :- 	verConcentrica,
+				verLinhaDifH,
+				verLinhaIgualH,
+				verLinhaDifV,
+				verLinhaIgualV.
 
 
 
