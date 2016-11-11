@@ -1,5 +1,5 @@
 :- consult(interface).
-
+:- use_module(library(random)).
  
 %TODO: Selecionar jogador
 %TODO: Selecionar peca a mover
@@ -63,48 +63,21 @@ replace([H|T], I, X, [H|R]):- I > 0,
 
 
 
-%Coloca peca pequena no tabuleiro
-							  
-colocarpequena(X,Y,P,ListaSai,ListaSai2):-           
-										nth0(Y,ListaSai,Elemento,Resto), 
-										nth0(2,Elemento,Elemento2,Resto2),
-										nth0(X,Elemento2,Elemento3,Resto3),
-										Elemento3=n1,
-										replace(Elemento2, X, P, Lis),
-										replace(Elemento,2,Lis,List),
-										replace(ListaSai,Y,List,ListaSai2).
-																	  
-							  
-colocarpequena(X,Y,P,ListaSai,ListaSai2):- nl, write('Posicao ocupada!'),fail.
-							  
-%Coloca peca media no tabuleiro
-							  
-colocarmedia(X,Y,P,ListaSai,ListaSai2):-        
-										nth0(Y,ListaSai,Elemento,Resto), 
-										nth0(1,Elemento,Elemento2,Resto2),
-										nth0(X,Elemento2,Elemento3,Resto3),
-										Elemento3=n2,
-										replace(Elemento2, X, P, Lis),
-										replace(Elemento,1,Lis,List),
-										replace(ListaSai,Y,List,ListaSai2).
-									
 
-colocarmedia(X,Y,P,ListaSai,ListaSai2):- nl, write('Posicao ocupada!'),fail.
+%Coloca peca na ListaSai(tabuleiro) e retorna  ListaSai2(tabueiro modificado) sendo X,Y as coordenadas, P a peça, Elem (n1,n2,n3) conforme o tamanho da peça, Fila indica Y em cada bloco ex:0 para grande.
 
-%Coloca peca grande na ListaSai(tabuleiro) e retorna  ListaSai2(tabueiro modificado)
-
-colocargrande(X,Y,P,ListaSai,ListaSai2):-
+colocarpeca(X,Y,P,Fila,Elem,ListaSai,ListaSai2):-
 										nth0(Y,ListaSai,Elemento,Resto), 
-										nth0(0,Elemento,Elemento2,Resto2),
+										nth0(Fila,Elemento,Elemento2,Resto2),
 										nth0(X,Elemento2,Elemento3,Resto3),
-										Elemento3=n3,
+										Elemento3=Elem,
 										replace(Elemento2, X, P, Lis),
-										replace(Elemento,0,Lis,List),
+										replace(Elemento,Fila,Lis,List),
 										replace(ListaSai,Y,List,ListaSai2).
 										
 									
 										
-colocargrande(X,Y,P,ListaSai,ListaSai2):- nl, write('Posicao ocupada!'),fail.
+colocarpeca(X,Y,P,Fila,Elem,ListaSai,ListaSai2):- nl, write('Posicao ocupada!'),fail.
 
 getcolor(Peca,Cor):- atom_chars(Peca,Char),
 					nth0(0,Char,Cor,Resto2).
@@ -113,68 +86,61 @@ getsize(Peca,Tamanho):- atom_chars(Peca,Char),
 					nth0(1,Char,Tamanho,Resto2).
 
 
-%Faz jogada do jogador X TODO-> substituir a peca no set
+%Faz jogada do jogador X 
 
-jogadajogador1(X,Y,Peca):-getsize(Peca,Size),
-						 Size='1',!,
-						 p1Set(Set),!,
-						 board(Board),!,
-						 verificapecapequena(Set,Peca),!,
-						 removepecapequena(Set,Peca,Newset),!,
-						 colocarpequena(X,Y,Peca,Board,Newboard),
-						 asserta(board(Newboard)),
-						 asserta(p1Set(Newset)),
-						 display.
+jogadaX(X,Y,Peca,Set,NewSet):-getsize(Peca,Size),
+									Size='1',!,
+									board(Board),!,
+									verificapeca(Set,Peca,2),!,
+									removepeca(Set,Peca,2,NewSet),!,
+									colocarpeca(X,Y,Peca,2,n1,Board,Newboard),
+									asserta(board(Newboard)).
+								
 						 
-jogadajogador1(X,Y,Peca):-getsize(Peca,Size),
-						 Size='2',!,
-						 p1Set(Set),!,
-						 board(Board),!,
-						 verificapecamedia(Set,Peca),!,
-						 removepecamedia(Set,Peca,Newset),!,
-						 colocarmedia(X,Y,Peca,Board,Newboard),
-						 asserta(board(Newboard)),
-						 asserta(p1Set(Newset)),
-						 display.
+jogadaX(X,Y,Peca,Set,NewSet):-getsize(Peca,Size),
+									Size='2',!,
+									board(Board),!,
+									verificapeca(Set,Peca,1),!,
+									removepeca(Set,Peca,1,NewSet),!,
+									colocarpeca(X,Y,Peca,1,n2,Board,Newboard),
+									asserta(board(Newboard)).
+							
 						 
-jogadajogador1(X,Y,Peca):-getsize(Peca,Size),
-						 Size='3',!,
-						 p1Set(Set),!,
-						 board(Board),!,
-						 verificapecagrande(Set,Peca),!,
-						 removepecagrande(Set,Peca,Newset),!,
-						 colocargrande(X,Y,Peca,Board,Newboard),
-						 asserta(board(Newboard)),
-						 asserta(p1Set(Newset)),
-						 display.
+jogadaX(X,Y,Peca,Set,NewSet):-getsize(Peca,Size),
+									Size='3',!,
+									board(Board),!,
+									verificapeca(Set,Peca,0),!,
+									removepeca(Set,Peca,0,NewSet),!,
+									colocarpeca(X,Y,Peca,0,n3,Board,Newboard),
+									asserta(board(Newboard)).
+									
 						 
 						 
+%Faz jogada do jogador 1 ou 2 
 
+
+jogadajogador1(X,Y,Peca):-	p1Set(Set),!,
+							jogadaX(X,Y,Peca,Set,NewSet),
+							asserta(p1Set(NewSet)),
+							display.
+							
+jogadajogador2(X,Y,Peca):-	p2Set(Set),!,
+							jogadaX(X,Y,Peca,Set,NewSet),
+							asserta(p2Set(NewSet)),
+							display.							
+
+			 
+						 
 
 %Verifica se a peca existe no Set
-verificapecagrande(Set,Peca):- 
+verificapeca(Set,Peca,Tamanho):- 
 							   nth0(0,Set,Lista,Resto2),
-							   nth0(0,Lista,Lista2,Resto3),
+							   nth0(Tamanho,Lista,Lista2,Resto3),
 							   member(Peca,Lista2).
 							   
-verificapecagrande(Set,Peca):- nl, write('Peca indisponivel para jogar'),fail.
+verificapeca(Set,Peca,Tamanho):- nl, write('Peca indisponivel para jogar'),fail.
 							   
 							   
-
-
-verificapecamedia(Set,Peca):-
-							   nth0(0,Set,Lista,Resto2),
-							   nth0(1,Lista,Lista2,Resto3),
-							   member(Peca,Lista2),!.
-							   
-verificapecamedia(Set,Peca):- nl, write('Peca indisponivel para jogar'),fail.
-
-
-verificapecapequena(Set,Peca):- nth0(0,Set,Lista,Resto2),
-							   nth0(2,Lista,Lista2,Resto3),
-							   member(Peca,Lista2),!.
-							   
-verificapecapequena(Set,Peca):- nl, write('Peca indisponivel para jogar'),fail.
 
 %Modifica a primeira ocurrencia de Old na lista Old por New e devolve a lista New -> changeFst(Old,ListaOld,New,ListaNew).
 
@@ -186,23 +152,13 @@ changeFst(Old,[E|Olds],New,[E|News]):-
  
 %Remove peca do Set e devolve o set modificado 
 
-removepecagrande(Set,Peca,Newset):- nth0(0,Set,Lista,Resto2),
-							 nth0(0,Lista,Lista2,Resto3),
+removepeca(Set,Peca,Tamanho,Newset):- nth0(0,Set,Lista,Resto2),
+							 nth0(Tamanho,Lista,Lista2,Resto3),
 							 changeFst(Peca,Lista2,n3,Newlist),
-							 replace(Lista, 0, Newlist, NNewlist),
+							 replace(Lista, Tamanho, Newlist, NNewlist),
 							 replace(Set, 0, NNewlist, Newset).
 	
-removepecamedia(Set,Peca,Newset):- nth0(0,Set,Lista,Resto2),
-							 nth0(1,Lista,Lista2,Resto3),
-							 changeFst(Peca,Lista2,n2,Newlist),
-							 replace(Lista, 1, Newlist, NNewlist),
-							 replace(Set, 0, NNewlist, Newset).
-								
-removepecapequena(Set,Peca,Newset):- nth0(0,Set,Lista,Resto2),
-							 nth0(2,Lista,Lista2,Resto3),
-							 changeFst(Peca,Lista2,n1,Newlist),
-							 replace(Lista, 2, Newlist, NNewlist),
-							 replace(Set, 0, NNewlist, Newset).
+
 							
 %Lista o indice de um elemento numa lista
 
@@ -211,17 +167,9 @@ indexOf([_|Tail], Element, Index):-
   indexOf(Tail, Element, Index1),
   Index is Index1+1.			 
 
+  
 
-%Devolve uma lista(Bag) com os indices livres da linha
-
-listajogadasgrandelinha(Linha,Bag):- findall(Index,indexOf(Linha,n3,Index),Bag).
-
-listajogadasmedialinha(Linha,Bag):- findall(Index,indexOf(Linha,n2,Index),Bag).
-
-listajogadaspequenalinha(Linha,Bag):- findall(Index,indexOf(Linha,n1,Index),Bag).
-
-
-%interpola x com cada elemento da lista
+%interpola x com cada elemento da lista e retorna ListaSaida
 
 interpolate(X,[],[]).
 interpolate(X,[Element|Tail],ListaSaida):-append([],[[Element,X]],Lista),
@@ -232,52 +180,107 @@ interpalate(X,[Element|Tail],Lista,ListaSaida):-append(Lista,[[Element,X]],List)
 											interpalate(X,Tail,List,ListaSaida).											
 									
 
-%devove coordenadas livres duma linha
+%devove coordenadas livres duma linha, Elemento= n1,n2,n3 conforme tamanho, Y =0,1,2 conforme o Y no tabuleiro,devolve Listacoor
 
-coordenadaslivregrande0(Linha,ListaCoor) :- findall(Index,indexOf(Linha,n3,Index),Bag),
-										interpolate(0,Bag,ListaCoor).
+coordenadaslivre(Linha,Y,Elemento,ListaCoor) :- findall(Index,indexOf(Linha,Elemento,Index),Bag),
+													 interpolate(Y,Bag,ListaCoor).
 										
-coordenadaslivregrande1(Linha,ListaCoor) :- findall(Index,indexOf(Linha,n3,Index),Bag),
-										interpolate(1,Bag,ListaCoor).											
-								  
-coordenadaslivregrande2(Linha,ListaCoor) :- findall(Index,indexOf(Linha,n3,Index),Bag),
-										interpolate(2,Bag,ListaCoor).
+									
 
+%Devolve jogadas possiveis para uma peça tamanho X, devolve ListaJogadas, Elemento=n3,n2,n1 e Linha é a linha em cada bloco (ex:0 para grande)
 
-
-										
-coordenadaslivremedia0(Linha,ListaCoor) :- findall(Index,indexOf(Linha,n2,Index),Bag),
-										interpolate(0,Bag,ListaCoor).
-										
-coordenadaslivremedia1(Linha,ListaCoor) :- findall(Index,indexOf(Linha,n2,Index),Bag),
-										interpolate(1,Bag,ListaCoor).											
-								  
-coordenadaslivremedia2(Linha,ListaCoor) :- findall(Index,indexOf(Linha,n2,Index),Bag),
-										interpolate(2,Bag,ListaCoor).	
-
-
-
-coordenadaslivrepequena0(Linha,ListaCoor) :- findall(Index,indexOf(Linha,n1,Index),Bag),
-										interpolate(0,Bag,ListaCoor).
-										
-coordenadaslivrepequena1(Linha,ListaCoor) :- findall(Index,indexOf(Linha,n1,Index),Bag),
-										interpolate(1,Bag,ListaCoor).											
-								  
-coordenadaslivrepequena2(Linha,ListaCoor) :- findall(Index,indexOf(Linha,n1,Index),Bag),
-										interpolate(2,Bag,ListaCoor).											
-
-%Devolve jogadas possiveis para uma peça grande.
-
-jogadapossivelgrande(ListaJogadas):- board(Board),
+jogadapossivelX(ListaJogadas,Elemento,Linha):- board(Board),
 									 nth0(0,Board,Bloco1,Resto1), 
-									 nth0(0,Bloco1,Linha1,Resto2),
-									 coordenadaslivregrande0(Linha1,ListaCoor1),
+									 nth0(Linha,Bloco1,Linha1,Resto2),
+									 coordenadaslivre(Linha1,0,Elemento,ListaCoor1),
 									 nth0(1,Board,Bloco2,Resto3), 
-									 nth0(0,Bloco2,Linha2,Resto4),
-									 coordenadaslivregrande1(Linha2,ListaCoor2),
+									 nth0(Linha,Bloco2,Linha2,Resto4),
+									 coordenadaslivre(Linha2,1,Elemento,ListaCoor2),
 									 nth0(2,Board,Bloco3,Resto5), 
-									 nth0(0,Bloco3,Linha3,Resto6),
-									 coordenadaslivregrande2(Linha3,ListaCoor3),
+									 nth0(Linha,Bloco3,Linha3,Resto6),
+									 coordenadaslivre(Linha3,2,Elemento,ListaCoor3),
 									 append(ListaCoor1,ListaCoor2,ListaMetade),
 									 append(ListaMetade,ListaCoor3,ListaJogadas).
 									 
+%devolve em ListaJogadas a lista de jogadas permitidas para cada tipo de peça
+
+jogadapossivelgrande(ListaJogadas):- jogadapossivelX(ListaJogadas,n3,0).	
+jogadapossivelmedia(ListaJogadas):- jogadapossivelX(ListaJogadas,n2,1).	
+jogadapossivelpequena(ListaJogadas):- jogadapossivelX(ListaJogadas,n1,2).				 
+									 
+									 
+%Faz jogada random
+
+escolherPeca(Set,Peca):-	 	  
+							   nth0(0,Set,RealSet,Resto1),
+							   nth0(0,RealSet,Grandes,Resto2),	
+							   nth0(1,RealSet,Medias,Resto3),	
+							   nth0(2,RealSet,Pequenas,Resto4),
+							   append(Grandes,Medias,PecasSet),
+							   append(PecasSet,Pequenas,PecasCompleto),
+							   delete(PecasCompleto,n3,Semn3),
+							   delete(Semn3,n2,Semn3n2),
+							   delete(Semn3n2,n1,PecasExistentes),
+							   length(PecasExistentes,Tamanho),!,
+							   random(0,Tamanho,Nrandom),
+							   nth0(Nrandom,PecasExistentes,Peca,Resto5).
+							   
+							   					
+
+jogadacomputadorX(Peca,Set,NewSet):- 
+								getsize(Peca,Size),
+								Size='3',!,
+								jogadapossivelgrande(ListaJogadas),
+								length(ListaJogadas,Tamanho),
+							    random(0,Tamanho,Nrandom),
+								nth0(Nrandom,ListaJogadas,Jogada,Resto1),
+								nth0(0,Jogada,X,Resto2),
+								nth0(1,Jogada,Y,Resto3),
+								jogadaX(X,Y,Peca,Set,NewSet).
+
+jogadacomputadorX(Peca,Set,NewSet):- 
+								getsize(Peca,Size),
+								Size='2',!,
+								jogadapossivelmedia(ListaJogadas),
+								length(ListaJogadas,Tamanho),
+							    random(0,Tamanho,Nrandom),
+								nth0(Nrandom,ListaJogadas,Jogada,Resto1),
+								nth0(0,Jogada,X,Resto2),
+								nth0(1,Jogada,Y,Resto3),
+								jogadaX(X,Y,Peca,Set,NewSet).
+
+jogadacomputadorX(Peca,Set,NewSet):- 
+								getsize(Peca,Size),
+								Size='1',!,
+								jogadapossivelpequena(ListaJogadas),
+								length(ListaJogadas,Tamanho),
+							    random(0,Tamanho,Nrandom),
+								nth0(Nrandom,ListaJogadas,Jogada,Resto1),
+								nth0(0,Jogada,X,Resto2),
+								nth0(1,Jogada,Y,Resto3),
+								jogadaX(X,Y,Peca,Set,NewSet).								
+
+%Funcao aux para jogada random
+
+jogadacomputadorA(Peca,Set):- 
+					         jogadacomputadorX(Peca,Set,NewSet),
+							 asserta(p1Set(NewSet)),!.
+                      
+					
+jogadacomputadorB(Peca,Set):- 
+					         jogadacomputadorX(Peca,Set,NewSet),
+							 asserta(p2Set(NewSet)),!.					  
+				  
+%Funcao faz jogada computador.
+
+jogadacomputador1:-
+				   p1Set(Set),!,
+				   escolherPeca(Set,Peca),!,
+				   jogadacomputadorA(Peca,Set),
+				   display.
+
+jogadacomputador2:-
+				   p2Set(Set),!,
+				   escolherPeca(Set,Peca),!,
+				   jogadacomputadorB(Peca,Set),
+				   display.				   

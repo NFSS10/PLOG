@@ -3,6 +3,8 @@
 :-dynamic(board/1).
 :-dynamic(p1Set/1).
 :-dynamic(p2Set/1).
+:-dynamic(p3Set/1).
+:-dynamic(p4Set/1).
 
 %Tabuleiro
 board([
