@@ -187,13 +187,18 @@ verConcentrica :- winCondConcentrica(0),
 					winCondConcentrica(1),
 					winCondConcentrica(2).
 					
+					
+verLinhaDiag :- winCondLinhaMesmoTamD(0),
+				winCondLinhaMesmoTamD(1),
+				winCondLinhaMesmoTamD(2).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 verSeGanhou :- 	verConcentrica,
 				verLinhaDifH,
 				verLinhaIgualH,
 				verLinhaDifV,
-				verLinhaIgualV.
+				verLinhaIgualV,
+				verLinhaDiag.
 
 
 
