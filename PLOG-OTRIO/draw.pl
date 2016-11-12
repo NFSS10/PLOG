@@ -76,5 +76,6 @@ display:- board(X),
 	display_board(X,0),
 		write('                |++++++++++++++++++++++++++++++++++++|'),
 	nl, write('                |||----------|----------|----------|||'),
-	nl, printSetP2.
+	nl, printSetP2,
+	nl,nl.
 

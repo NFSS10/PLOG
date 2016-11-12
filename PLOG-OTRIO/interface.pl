@@ -1,5 +1,6 @@
 :- consult(draw).
 :- consult(engine).
+:- consult(main).
 
 %posicoes validas
 posicaoValidaLin(0).
@@ -8,6 +9,10 @@ posicaoValidaLin(2).
 posicaoValidaCol(a).
 posicaoValidaCol(b).
 posicaoValidaCol(c).
+
+posicaoValidaTam(g).
+posicaoValidaTam(m).
+posicaoValidaTam(p).
 
 %Pede ao utilizador as coordenadas e recolhe as mesmas
 getCoord(Lin, Col) :- write('Insira a coordenada desejada'), nl,
@@ -31,7 +36,31 @@ testeCorreto :- nl, write('CORRETO'), nl.
 
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%Ler do utilizador peca a jogar
+getPecaSet(Tam) :- nl,
+						write('Tamanho validos: g, m, p    "grande, medio, pequeno" respetivamente'), nl, nl,
+						write('Insira o tamanho:  '),
+						read(Tam), nl.
+					
 
+
+					
+%Peca tamanho e coluna		
+pedirPecaSet(Tam, Col, Set) :- getPecaSet(Tam), tamValidaSet(Tam), !,
+						translatePeca(Tam, Peca),
+						verificapeca(Set,Peca,Tamanho).
+pedirPecaSet(Tam, Col, Set) :- pedirPecaSet(Tam, Col, Set).
+
+%%%%%%%%%%%%%
+%validaTamCol(Tam, Col) :-posicaoValidaSet(Col), !, tamValidaSet(Tam).
+
+%posicaoValidaSet(Col) :- posicaoValidaCol(Col).
+%posicaoValidaSet(Col) :- msgCoordInvalida, fail.
+
+tamValidaSet(Tam) :- posicaoValidaTam(Tam).
+tamValidaSet(Tam) :- nl, write('--- Tamanho Incorreto, Insire corretamente o tamanho ---'), nl, nl, fail.
+%%%%%%%%%%%%%%%%%%%%%%			
 
 
 

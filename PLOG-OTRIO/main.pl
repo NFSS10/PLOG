@@ -77,7 +77,7 @@ colocarpeca(X,Y,P,Fila,Elem,ListaSai,ListaSai2):-
 										
 									
 										
-colocarpeca(X,Y,P,Fila,Elem,ListaSai,ListaSai2):- nl, write('Posicao ocupada!'),fail.
+colocarpeca(X,Y,P,Fila,Elem,ListaSai,ListaSai2):- nl, write('Posicao ocupada!'),nl,fail.
 
 getcolor(Peca,Cor):- atom_chars(Peca,Char),
 					nth0(0,Char,Cor,Resto2).
@@ -91,6 +91,7 @@ getsize(Peca,Tamanho):- atom_chars(Peca,Char),
 jogadaX(X,Y,Peca,Set,NewSet):-getsize(Peca,Size),
 									Size='1',!,
 									board(Board),!,
+									retract(board(Board)),
 									verificapeca(Set,Peca,2),!,
 									removepeca(Set,Peca,2,NewSet),!,
 									colocarpeca(X,Y,Peca,2,n1,Board,Newboard),
@@ -100,6 +101,7 @@ jogadaX(X,Y,Peca,Set,NewSet):-getsize(Peca,Size),
 jogadaX(X,Y,Peca,Set,NewSet):-getsize(Peca,Size),
 									Size='2',!,
 									board(Board),!,
+									retract(board(Board)),
 									verificapeca(Set,Peca,1),!,
 									removepeca(Set,Peca,1,NewSet),!,
 									colocarpeca(X,Y,Peca,1,n2,Board,Newboard),
@@ -109,6 +111,7 @@ jogadaX(X,Y,Peca,Set,NewSet):-getsize(Peca,Size),
 jogadaX(X,Y,Peca,Set,NewSet):-getsize(Peca,Size),
 									Size='3',!,
 									board(Board),!,
+									retract(board(Board)),
 									verificapeca(Set,Peca,0),!,
 									removepeca(Set,Peca,0,NewSet),!,
 									colocarpeca(X,Y,Peca,0,n3,Board,Newboard),
@@ -120,11 +123,13 @@ jogadaX(X,Y,Peca,Set,NewSet):-getsize(Peca,Size),
 
 
 jogadajogador1(X,Y,Peca):-	p1Set(Set),!,
+							retract(p1Set(Set)),
 							jogadaX(X,Y,Peca,Set,NewSet),
 							asserta(p1Set(NewSet)),
 							display.
 							
 jogadajogador2(X,Y,Peca):-	p2Set(Set),!,
+							retract(p2Set(Set)),
 							jogadaX(X,Y,Peca,Set,NewSet),
 							asserta(p2Set(NewSet)),
 							display.							
@@ -138,7 +143,7 @@ verificapeca(Set,Peca,Tamanho):-
 							   nth0(Tamanho,Lista,Lista2,Resto3),
 							   member(Peca,Lista2).
 							   
-verificapeca(Set,Peca,Tamanho):- nl, write('Peca indisponivel para jogar'),fail.
+verificapeca(Set,Peca,Tamanho):- nl, write('Peca indisponivel para jogar'),nl,fail.
 							   
 							   
 
@@ -264,11 +269,13 @@ jogadacomputadorX(Peca,Set,NewSet):-
 
 jogadacomputadorA(Peca,Set):- 
 					         jogadacomputadorX(Peca,Set,NewSet),
+							 retract(p1Set(Set)),
 							 asserta(p1Set(NewSet)),!.
                       
 					
 jogadacomputadorB(Peca,Set):- 
 					         jogadacomputadorX(Peca,Set,NewSet),
+							 retract(p2Set(Set)),
 							 asserta(p2Set(NewSet)),!.					  
 				  
 %Funcao faz jogada computador.
@@ -284,3 +291,17 @@ jogadacomputador2:-
 				   escolherPeca(Set,Peca),!,
 				   jogadacomputadorB(Peca,Set),
 				   display.				   
+				   
+				   
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%fazJogada1 :-
+
+%jogohh :- jogadajogador1(0,0,r3),jogadajogador2(1,1,b3), jogohh.
+
+				   
+				   
+				   
+
+				   
