@@ -84,7 +84,8 @@ winCondLinhaMesmoTamD(Tam):- selectLinhaporTamDListB(Tam, Res),
 winCondLinhaMesmoTamD(Tam).
 
 msgVitoria(L):-nl, write('VITORIAAAAAAAAAAAAA'),
-							write(L).
+							write(L),
+							fail.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
