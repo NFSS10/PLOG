@@ -31,7 +31,7 @@ condVitoria([[_,_,r3],[_,_,r2],[_,_,r1]]).
 selectLinhaporTamHor(Tam, Lin, PiecesList) :- escolhebloco(BlocoLinha,Lin), nth0(Tam,BlocoLinha,PiecesList).
 
 %Seleciona a peca do tabuleiro por tamanho
-getPiece(Tam, Lin, Col, Piece) :- escolhebloco(BlocoLinha, Lin),
+getPiece(Tam, Lin, Col, Piece) :-   escolhebloco(BlocoLinha, Lin),
 									nth0(Tam,BlocoLinha,PiecesList),
 									nth0(Col,PiecesList,Piece).
 											

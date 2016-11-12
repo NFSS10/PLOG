@@ -94,6 +94,7 @@ jogadaX(X,Y,Peca,Set,NewSet):-getsize(Peca,Size),
 									verificapeca(Set,Peca,2),!,
 									removepeca(Set,Peca,2,NewSet),!,
 									colocarpeca(X,Y,Peca,2,n1,Board,Newboard),
+									retract(board(Board)),
 									asserta(board(Newboard)).
 								
 						 
@@ -103,6 +104,7 @@ jogadaX(X,Y,Peca,Set,NewSet):-getsize(Peca,Size),
 									verificapeca(Set,Peca,1),!,
 									removepeca(Set,Peca,1,NewSet),!,
 									colocarpeca(X,Y,Peca,1,n2,Board,Newboard),
+									retract(board(Board)),
 									asserta(board(Newboard)).
 							
 						 
@@ -112,6 +114,7 @@ jogadaX(X,Y,Peca,Set,NewSet):-getsize(Peca,Size),
 									verificapeca(Set,Peca,0),!,
 									removepeca(Set,Peca,0,NewSet),!,
 									colocarpeca(X,Y,Peca,0,n3,Board,Newboard),
+									retract(board(Board)),
 									asserta(board(Newboard)).
 									
 						 
@@ -382,7 +385,7 @@ playpvp :- p1Set(Set1),
 		   readCoords(X1,Y1,Peca1),
 		   jogadajogador1(X1,Y1,Peca1),
 		   display,!,
-		   verSeGanhou,
+		   verSeGanhou,!,
 		   nl,
 		   write('JOGADOR 2: '),
 		   nl,
@@ -391,10 +394,10 @@ playpvp :- p1Set(Set1),
 		   readCoords(X2,Y2,Peca2),
 		   jogadajogador2(X2,Y2,Peca2),
 		   display,!,
-		   verSeGanhou,
+		   verSeGanhou,!,
 		   playpvp.
 		   
-		   
+
 playpvc :- p1Set(Set1),
 		   nl,
 		   write('JOGADOR 1: '),
@@ -403,9 +406,72 @@ playpvc :- p1Set(Set1),
 		   getPecaInterface(Peca1,Set1),
 		   readCoords(X1,Y1,Peca1),
 		   jogadajogador1(X1,Y1,Peca1),!,
-		   verSeGanhou,
+		   verSeGanhou,!,
 		   nl,
 		   jogadacomputador2,
 		   display,!,
-		   verSeGanhou,
+		   verSeGanhou,!,
 		   playpvc.
+
+playcvc :- jogadacomputador1,
+		   display,!,
+		   verSeGanhou,!,
+		   jogadacomputador2,
+		   display,!,
+		   verSeGanhou,!,
+		   playcvc.
+		   
+			
+
+
+
+
+opcaovalida(1).
+opcaovalida(2).
+opcaovalida(3).
+
+escolhetipojogo(Tipo):-write('Escolha o tipo de jogo: 1-pvp 2-pvc 3-cvc'),
+					   nl,
+					   read(Tipo),
+					   opcaovalida(Tipo).
+					   
+escolhetipojogo(Tipo):-write('Opcao Invalida!'),nl,escolhetipojogo(Tipo).
+
+
+
+
+
+
+
+play2(Tipo):- 
+	   Tipo=1,
+	   playpvp.
+	   
+play2(Tipo):- 
+	   Tipo=2,
+	   playpvc.
+
+play2(Tipo):- 
+	   Tipo=3,
+	   playcvc.	   
+
+	   
+play:- escolhetipojogo(Tipo),!,
+	   play2(Tipo).
+
+
+playGame:-play.
+	   
+playGame:- write('____GAME OVER____'),nl,nl,
+			resetgame,
+			playGame.
+
+
+resetgame:- board(Board2),
+			boardinicial(Board),
+			retract(board(Board2)),
+			asserta(board(Board)),
+			p1Setinicial(P1Set),
+			asserta(p1Set(P1Set)),
+			p2Setinicial(P2Set),
+			asserta(p2Set(P2Set)).
