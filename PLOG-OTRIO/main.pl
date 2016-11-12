@@ -121,13 +121,13 @@ jogadaX(X,Y,Peca,Set,NewSet):-getsize(Peca,Size),
 
 jogadajogador1(X,Y,Peca):-	p1Set(Set),!,
 							jogadaX(X,Y,Peca,Set,NewSet),
-							asserta(p1Set(NewSet)),
-							display.
+							asserta(p1Set(NewSet)).
+						
 							
 jogadajogador2(X,Y,Peca):-	p2Set(Set),!,
 							jogadaX(X,Y,Peca,Set,NewSet),
-							asserta(p2Set(NewSet)),
-							display.							
+							asserta(p2Set(NewSet)).
+											
 
 			 
 						 
@@ -276,11 +276,136 @@ jogadacomputadorB(Peca,Set):-
 jogadacomputador1:-
 				   p1Set(Set),!,
 				   escolherPeca(Set,Peca),!,
-				   jogadacomputadorA(Peca,Set),
-				   display.
+				   jogadacomputadorA(Peca,Set).
+				   
 
 jogadacomputador2:-
 				   p2Set(Set),!,
 				   escolherPeca(Set,Peca),!,
-				   jogadacomputadorB(Peca,Set),
-				   display.				   
+				   jogadacomputadorB(Peca,Set).
+						   
+				   
+				   
+%posicoes validas
+posicaoValidaLin(0).
+posicaoValidaLin(1).
+posicaoValidaLin(2).
+posicaoValidaCol(0).
+posicaoValidaCol(1).
+posicaoValidaCol(2).
+
+%Pede ao utilizador as coordenadas e recolhe as mesmas
+
+getCoord(X, Y,Peca) :- 			
+			getsize(Peca,Size),
+			Size='3',
+			write('Insira a coordenada desejada'), nl,
+			write('X ("0" a "2"): '),
+			read(X),
+			posicaoValidaLin(X),
+			write('Y ("0" a "2"): '),
+			read(Y),
+			append([X],[Y],Coords),
+			posicaoValidaCol(Y),
+			jogadapossivelgrande(ListaJogadas),!,
+			member(Coords,ListaJogadas),
+			nl.
+
+getCoord(X, Y,Peca) :-		
+			getsize(Peca,Size),
+			Size='2',
+			write('Insira a coordenada desejada'), nl,
+			write('X ("0" a "2"): '),
+			read(X),
+			posicaoValidaLin(X),
+			write('Y ("0" a "2"): '),
+			read(Y),
+			append([X],[Y],Coords),
+			posicaoValidaCol(Y),
+			jogadapossivelmedia(ListaJogadas),!,
+			member(Coords,ListaJogadas),
+			nl.
+			
+getCoord(X, Y,Peca) :- 
+			getsize(Peca,Size),
+			Size='1',
+			write('Insira a coordenada desejada'), nl,
+			write('X ("0" a "2"): '),
+			read(X),
+			posicaoValidaLin(X),
+			write('Y ("0" a "2"): '),
+			read(Y),
+			append([X],[Y],Coords),
+			posicaoValidaCol(Y),
+			jogadapossivelpequena(ListaJogadas),!,
+			member(Coords,ListaJogadas),
+			nl.
+
+
+
+
+readCoords(X,Y,Peca) :-getCoord(X,Y,Peca).
+
+readCoords(X,Y,Peca) :- write('Posicao indisponivel ou ocupada'),nl, readCoords(X,Y,Peca).
+
+
+getPecaInterface(Peca,Set) :- write('Insira a peca desejada (corTamanho, exemplo r3)!'), 
+					          read(Peca),
+					          verificaPecaSet(Peca,Set).
+
+					 
+					 
+getPecaInterface(Peca,Set) :-  write('Peca nao disponivel!'), nl,  getPecaInterface(Peca,Set).
+
+					 
+					 
+
+verificaPecaSet(Peca,Set) :-   nth0(0,Set,RealSet,Resto1),
+							   nth0(0,RealSet,Grandes,Resto2),	
+							   nth0(1,RealSet,Medias,Resto3),	
+							   nth0(2,RealSet,Pequenas,Resto4),
+							   append(Grandes,Medias,PecasSet),
+							   append(PecasSet,Pequenas,PecasCompleto),
+							   delete(PecasCompleto,n3,Semn3),
+							   delete(Semn3,n2,Semn3n2),
+							   delete(Semn3n2,n1,PecasExistentes),
+							   length(PecasExistentes,Tamanho),!,	
+							   member(Peca,PecasExistentes).
+
+playpvp :- p1Set(Set1),
+		   p2Set(Set2),
+		   nl,
+		   write('JOGADOR 1: '),
+		   nl,
+		   nl,
+		   getPecaInterface(Peca1,Set1),
+		   readCoords(X1,Y1,Peca1),
+		   jogadajogador1(X1,Y1,Peca1),
+		   display,!,
+		   verSeGanhou,
+		   nl,
+		   write('JOGADOR 2: '),
+		   nl,
+		   nl,
+		   getPecaInterface(Peca2,Set2),
+		   readCoords(X2,Y2,Peca2),
+		   jogadajogador2(X2,Y2,Peca2),
+		   display,!,
+		   verSeGanhou,
+		   playpvp.
+		   
+		   
+playpvc :- p1Set(Set1),
+		   nl,
+		   write('JOGADOR 1: '),
+		   nl,
+		   nl,
+		   getPecaInterface(Peca1,Set1),
+		   readCoords(X1,Y1,Peca1),
+		   jogadajogador1(X1,Y1,Peca1),!,
+		   verSeGanhou,
+		   nl,
+		   jogadacomputador2,
+		   display,!,
+		   verSeGanhou,
+		   playpvc.

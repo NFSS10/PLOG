@@ -84,7 +84,8 @@ winCondLinhaMesmoTamD(Tam):- selectLinhaporTamDListB(Tam, Res),
 winCondLinhaMesmoTamD(Tam).
 
 msgVitoria(L):-nl, write('VITORIAAAAAAAAAAAAA'),
-							write(L).
+							write(L),
+							fail.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -186,13 +187,18 @@ verConcentrica :- winCondConcentrica(0),
 					winCondConcentrica(1),
 					winCondConcentrica(2).
 					
+					
+verLinhaDiag :- winCondLinhaMesmoTamD(0),
+				winCondLinhaMesmoTamD(1),
+				winCondLinhaMesmoTamD(2).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 verSeGanhou :- 	verConcentrica,
 				verLinhaDifH,
 				verLinhaIgualH,
 				verLinhaDifV,
-				verLinhaIgualV.
+				verLinhaIgualV,
+				verLinhaDiag.
 
 
 
