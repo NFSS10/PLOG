@@ -1,27 +1,27 @@
 %linha mesmo tamanho
 %horizontal
-condVitoria([b3,b3,b3]).
-condVitoria([r3,r3,r3]).
-condVitoria([b2,b2,b2]).
-condVitoria([r2,r2,r2]).
-condVitoria([b1,b1,b1]).
-condVitoria([r1,r1,r1]).
+condVitoria([b3,b3,b3]) :- nl,write(' ###   Jogador 2 ganhou !   ###'),nl.
+condVitoria([r3,r3,r3]) :- nl,write(' ###   Jogador 1 ganhou !   ###'),nl.
+condVitoria([b2,b2,b2]) :- nl,write(' ###   Jogador 2 ganhou !   ###'),nl.
+condVitoria([r2,r2,r2]) :- nl,write(' ###   Jogador 1 ganhou !   ###'),nl.
+condVitoria([b1,b1,b1]) :- nl,write(' ###   Jogador 2 ganhou !   ###'),nl.
+condVitoria([r1,r1,r1]) :- nl,write(' ###   Jogador 1 ganhou !   ###'),nl.
 
 %diferentes tamanhos
-condVitoria([b3,b2,b1]).
-condVitoria([r3,r2,r1]).
-condVitoria([b1,b2,b3]).
-condVitoria([r1,r2,r3]).
+condVitoria([b3,b2,b1]) :- nl,write(' ###   Jogador 2 ganhou !   ###'),nl.
+condVitoria([r3,r2,r1]) :- nl,write(' ###   Jogador 1 ganhou !   ###'),nl.
+condVitoria([b1,b2,b3]) :- nl,write(' ###   Jogador 2 ganhou !   ###'),nl.
+condVitoria([r1,r2,r3]) :- nl,write(' ###   Jogador 1 ganhou !   ###'),nl.
 
 
 
 %concentrica
-condVitoria([[b3,_,_],[b2,_,_],[b1,_,_]]).
-condVitoria([[_,b3,_],[_,b2,_],[_,b1,_]]).
-condVitoria([[_,_,b3],[_,_,b2],[_,_,b1]]).
-condVitoria([[r3,_,_],[r2,_,_],[r1,_,_]]).
-condVitoria([[_,r3,_],[_,r2,_],[_,r1,_]]).
-condVitoria([[_,_,r3],[_,_,r2],[_,_,r1]]).
+condVitoria([[b3,_,_],[b2,_,_],[b1,_,_]]) :- nl,write(' ###   Jogador 2 ganhou !   ###'),nl.
+condVitoria([[_,b3,_],[_,b2,_],[_,b1,_]]) :- nl,write(' ###   Jogador 2 ganhou !   ###'),nl.
+condVitoria([[_,_,b3],[_,_,b2],[_,_,b1]]) :- nl,write(' ###   Jogador 2 ganhou !   ###'),nl.
+condVitoria([[r3,_,_],[r2,_,_],[r1,_,_]]) :- nl,write(' ###   Jogador 1 ganhou !   ###'),nl.
+condVitoria([[_,r3,_],[_,r2,_],[_,r1,_]]) :- nl,write(' ###   Jogador 1 ganhou !   ###'),nl.
+condVitoria([[_,_,r3],[_,_,r2],[_,_,r1]]) :- nl,write(' ###   Jogador 1 ganhou !   ###'),nl.
 
 condEmpate([
 	[[n3,n3,n3],

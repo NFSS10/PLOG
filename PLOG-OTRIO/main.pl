@@ -484,7 +484,7 @@ play:- escolhetipojogo(Tipo),!,
 
 playGame:-play.
 	   
-playGame:- write('____GAME OVER____'),nl,nl,
+playGame:- nl,write('____GAME OVER____'),nl,nl,
  			resetgame,
  			playGame.
  
