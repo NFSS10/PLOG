@@ -437,10 +437,14 @@ playpvc :- nl, display,
 		   
 		   
 playcvc :- jogadacomputador1,
-		   display,!,
+		   nl,
+		   write('Computador 1: '),
+		   display,!, nl,nl,
 		   verSeGanhou,!,
 		   jogadacomputador2,
-		   display,!,
+		   nl,
+		   write('Computador 2: '),
+		   display,!, nl,nl,
 		   verSeGanhou,!,
 		   playcvc.
 		   
