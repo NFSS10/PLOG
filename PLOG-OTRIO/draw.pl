@@ -2,12 +2,12 @@
 
 
 %Traduz os simbolos para uma representação mais agradável
-translate(r3,'| R()      '). translate(g3,'| G()      '). translate(b3,'| B()      '). translate(p3,'| P()      '). 
+translate(r3,'|    R()   '). translate(g3,'|    G()   '). translate(b3,'|    B()   '). translate(p3,'|    P()   '). 
 translate(r2,'|    RO    '). translate(g2,'|    GO    '). translate(b2,'|    BO    '). translate(p2,'|    PO    '). 
-translate(r1,'|       R* '). translate(g1,'|       G* '). translate(b1,'|       B* '). translate(p1,'|       P* ').
-translate(n3,'| --       '). 
+translate(r1,'|    R*    '). translate(g1,'|    G*    '). translate(b1,'|    B*    '). translate(p1,'|    P*    ').
+translate(n3,'|    --    '). 
 translate(n2,'|    --    '). 
-translate(n1,'|       -- ').
+translate(n1,'|    --    ').
 	
 %Seleciona a linha do tabuleiro de indice N, 0->topo, 1->meio, 2->baixo
 escolhebloco(BlocoLinha,N) :- board(Board), nth0(N,Board,BlocoLinha).
