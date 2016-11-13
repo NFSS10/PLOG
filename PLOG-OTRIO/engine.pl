@@ -23,6 +23,12 @@ condVitoria([[r3,_,_],[r2,_,_],[r1,_,_]]).
 condVitoria([[_,r3,_],[_,r2,_],[_,r1,_]]).
 condVitoria([[_,_,r3],[_,_,r2],[_,_,r1]]).
 
+condEmpate([
+	[[n3,n3,n3],
+	[n2,n2,n2],
+	[n1,n1,n1]]
+	]).
+
 
 
 
@@ -83,8 +89,11 @@ winCondLinhaMesmoTamD(Tam):- selectLinhaporTamDListB(Tam, Res),
 							
 winCondLinhaMesmoTamD(Tam).
 
-msgVitoria(L):-nl, write('VITORIAAAAAAAAAAAAA'),
+msgVitoria(L):-nl, nl, write('    ********    VITORIA!    ********'),nl,
 							write(L),
+							fail.
+							
+msgEmpate :-nl, write('---- Empate ---'), nl,
 							fail.
 
 
@@ -144,6 +153,15 @@ winCondLinhaDifHB(Lin).
 
 
 
+empS1 :- p1Set(Ja), condEmpate(Ja).
+empS2 :- p2Set(Jb), condEmpate(Jb).
+empate :-  empS1,  empS2, !.
+
+verEmpate :- empate, !,	msgEmpate.
+verEmpate.
+					
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -191,6 +209,8 @@ verConcentrica :- winCondConcentrica(0),
 verLinhaDiag :- winCondLinhaMesmoTamD(0),
 				winCondLinhaMesmoTamD(1),
 				winCondLinhaMesmoTamD(2).
+				
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 verSeGanhou :- 	verConcentrica,
@@ -198,7 +218,8 @@ verSeGanhou :- 	verConcentrica,
 				verLinhaIgualH,
 				verLinhaDifV,
 				verLinhaIgualV,
-				verLinhaDiag.
+				verLinhaDiag,
+				verEmpate.
 
 
 

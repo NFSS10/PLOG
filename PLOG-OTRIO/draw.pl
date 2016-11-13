@@ -23,6 +23,11 @@ condPrintNum(X,N):- X \==1, write('   ').
 condPrintNum(1,N):-write('  '), write(N).
 
 
+semSet3(Tam,Pos) :- write('             '), condPrintNum(Tam,Pos), write('|+').
+semSet4 :- write('|+').
+
+
+
 %Desenha a peça
 displayPiece(Piece) :- translate(Piece, Plem),
 	write(Plem).
@@ -35,11 +40,17 @@ display_row([Elem|Rest]):-
 	display_row(Rest).
 
 %Desenha o bloco da linha
-display_bloco([], N, Pos):- write('     |----------|+|----------|----------|----------|+|----------|').
+%com set3 e 4 
+%display_bloco([], N, Pos):- write('     |----------|+|----------|----------|----------|+|----------|').
+
+%normal
+display_bloco([], N, Pos):- write('                |+|----------|----------|----------|+|').
 display_bloco([Elem|Rest], N, Pos):-
-	printSetP3(Pos,N),
+	%printSetP3(Pos,N),
+	semSet3(Pos,N),
 	display_row(Elem),
-	printSetP4(Pos,N),
+	%printSetP4(Pos,N),
+	semSet4,
 	write('|'),
 	nl,
 	Pos1 is Pos +1,
@@ -71,7 +82,8 @@ display:- board(X),
 	nl, write('                |||----------|----------|----------|||'),
 	nl, printSetP1,
 	nl, write('                |++++++++++++++++++++++++++++++++++++|'),
-	nl, write('     |----------|+|----------|----------|----------|+|----------'),
+	%com set3 e 4: nl, write('     |----------|+|----------|----------|----------|+|----------'),
+	nl, write('                |+|----------|----------|----------|+|'),
 	nl,
 	display_board(X,0),
 		write('                |++++++++++++++++++++++++++++++++++++|'),

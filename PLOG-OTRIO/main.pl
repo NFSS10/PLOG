@@ -294,48 +294,59 @@ posicaoValidaCol(0).
 posicaoValidaCol(1).
 posicaoValidaCol(2).
 
+translateCoord('a', 0).
+translateCoord('b', 1).
+translateCoord('c', 2).
+
+
 %Pede ao utilizador as coordenadas e recolhe as mesmas
 
-getCoord(X, Y,Peca) :- 			
+getCoord(Tx, Y,Peca) :- 			
 			getsize(Peca,Size),
 			Size='3',
 			write('Insira a coordenada desejada'), nl,
-			write('X ("0" a "2"): '),
+			write('Coluna ("a", "b" ou "c"): '),
 			read(X),
-			posicaoValidaLin(X),
-			write('Y ("0" a "2"): '),
+			%
+			translateCoord(X, Tx),
+			posicaoValidaLin(Tx),
+			write('Linha ("0", "1" ou "2"): '),
 			read(Y),
-			append([X],[Y],Coords),
+			append([Tx],[Y],Coords),
 			posicaoValidaCol(Y),
 			jogadapossivelgrande(ListaJogadas),!,
 			member(Coords,ListaJogadas),
 			nl.
 
-getCoord(X, Y,Peca) :-		
+getCoord(Tx, Y,Peca) :-		
 			getsize(Peca,Size),
 			Size='2',
 			write('Insira a coordenada desejada'), nl,
-			write('X ("0" a "2"): '),
+			write('Coluna ("a", "b" ou "c"): '),
 			read(X),
-			posicaoValidaLin(X),
-			write('Y ("0" a "2"): '),
+			%
+			translateCoord(X, Tx),
+			posicaoValidaLin(Tx),
+			write('Linha ("0", "1" ou "2"): '),
 			read(Y),
-			append([X],[Y],Coords),
+			append([Tx],[Y],Coords),
 			posicaoValidaCol(Y),
 			jogadapossivelmedia(ListaJogadas),!,
 			member(Coords,ListaJogadas),
 			nl.
 			
-getCoord(X, Y,Peca) :- 
+getCoord(Tx, Y,Peca) :- 
 			getsize(Peca,Size),
 			Size='1',
 			write('Insira a coordenada desejada'), nl,
-			write('X ("0" a "2"): '),
+			write('Coluna ("a", "b" ou "c"): '),
 			read(X),
-			posicaoValidaLin(X),
-			write('Y ("0" a "2"): '),
+			%
+			translateCoord(X, Tx),
+			posicaoValidaLin(Tx),
+			write('Linha ("0", "1" ou "2"): '),
 			read(Y),
-			append([X],[Y],Coords),
+			append([Tx],[Y],Coords),
 			posicaoValidaCol(Y),
 			jogadapossivelpequena(ListaJogadas),!,
 			member(Coords,ListaJogadas),
@@ -346,16 +357,19 @@ getCoord(X, Y,Peca) :-
 
 readCoords(X,Y,Peca) :-getCoord(X,Y,Peca).
 
-readCoords(X,Y,Peca) :- write('Posicao indisponivel ou ocupada'),nl, readCoords(X,Y,Peca).
+readCoords(X,Y,Peca) :- nl, nl, write('Posicao indisponivel ou ocupada'),nl, nl, readCoords(X,Y,Peca).
 
 
-getPecaInterface(Peca,Set) :- write('Insira a peca desejada (corTamanho, exemplo r3)!'), 
+getPecaInterface(Peca,Set) :- write('----  Insira a peca desejada (corTamanho)!  ----'),nl,
+							  write('Jogador 1 - pecas vermelhas (r3,r2,r1)'),nl,
+							  write('Jogador 2 - pecas azuis (b3,b2,b1)'),nl,
+							  write('Peca desejada: '),nl,
 					          read(Peca),
 					          verificaPecaSet(Peca,Set).
 
 					 
 					 
-getPecaInterface(Peca,Set) :-  write('Peca nao disponivel!'), nl,  getPecaInterface(Peca,Set).
+getPecaInterface(Peca,Set) :-  nl,nl, write('Peca nao disponivel!'), nl,nl,  getPecaInterface(Peca,Set).
 
 					 
 					 
@@ -372,7 +386,8 @@ verificaPecaSet(Peca,Set) :-   nth0(0,Set,RealSet,Resto1),
 							   length(PecasExistentes,Tamanho),!,	
 							   member(Peca,PecasExistentes).
 
-playpvp :- p1Set(Set1),
+playpvp :- nl, display,
+		   p1Set(Set1),
 		   p2Set(Set2),
 		   nl,
 		   write('JOGADOR 1: '),
@@ -391,11 +406,13 @@ playpvp :- p1Set(Set1),
 		   readCoords(X2,Y2,Peca2),
 		   jogadajogador2(X2,Y2,Peca2),
 		   display,!,
+		   nl,nl,nl,nl,nl,nl,nl,nl,nl,nl,nl,nl,nl,nl,nl,nl,nl,nl,
 		   verSeGanhou,
 		   playpvp.
 		   
 		   
-playpvc :- p1Set(Set1),
+playpvc :- nl, display,
+		   p1Set(Set1),
 		   nl,
 		   write('JOGADOR 1: '),
 		   nl,
@@ -407,5 +424,6 @@ playpvc :- p1Set(Set1),
 		   nl,
 		   jogadacomputador2,
 		   display,!,
+		   nl,nl,nl,nl,nl,nl,nl,nl,nl,nl,nl,nl,nl,nl,nl,nl,nl,nl,
 		   verSeGanhou,
 		   playpvc.
