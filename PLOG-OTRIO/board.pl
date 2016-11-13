@@ -50,3 +50,34 @@ p4Set([
 	[p2,p2,p2],
 	[p1,p1,p1]]
 	]).		
+
+%Inicial
+p1Setinicial([
+ 	[[r3,r3,r3],
+ 	[r2,r2,r2],
+ 	[r1,r1,r1]]
+ 	]).
+ 
+ p2Setinicial([
+ 	[[b3,b3,b3],
+ 	[b2,b2,b2],
+	[b1,b1,b1]]
+	]).	
+	
+boardinicial([
+	[[n3,n3,n3],
+	[n2,n2,n2],
+	[n1,n1,n1]],
+	
+	[[n3,n3,n3],
+	[n2,n2,n2],
+	[n1,n1,n1]],
+	
+	[[n3,n3,n3],
+	[n2,n2,n2],
+	[n1,n1,n1]]
+]).
+	
+	
+	
+	
