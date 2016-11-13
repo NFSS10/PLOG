@@ -79,6 +79,19 @@ colocarpeca(X,Y,P,Fila,Elem,ListaSai,ListaSai2):-
 										
 colocarpeca(X,Y,P,Fila,Elem,ListaSai,ListaSai2):- nl, write('Posicao ocupada!'),fail.
 
+
+
+colocarpecaB(X,Y,P,Fila,Elem,ListaSai,ListaSai2):-
+										nth0(Y,ListaSai,Elemento,Resto), 
+										nth0(Fila,Elemento,Elemento2,Resto2),
+										nth0(X,Elemento2,Elemento3,Resto3),
+										Elemento3=Elem,
+										replace(Elemento2, X, P, Lis),
+										replace(Elemento,Fila,Lis,List),
+										replace(ListaSai,Y,List,ListaSai2).
+
+
+
 getcolor(Peca,Cor):- atom_chars(Peca,Char),
 					nth0(0,Char,Cor,Resto2).
 
@@ -280,18 +293,36 @@ jogadacomputadorB(Peca,Set):-
 				  
 %Funcao faz jogada computador.
 
-jogadacomputador1:-
+jogadacomputador1dif2:-
 				   p1Set(Set),!,
+				   tentaMelhorJogada,!,
 				   escolherPeca(Set,Peca),!,
 				   jogadacomputadorA(Peca,Set).
 				   
 
-jogadacomputador2:-
+jogadacomputador2dif2:-
 				   p2Set(Set),!,
+				   tentaMelhorJogada,!,
+				   escolherPeca(Set,Peca),!,
+				   jogadacomputadorB(Peca,Set).
+				   
+				   
+jogadacomputador1dif1:-
+				   p1Set(Set),!,
+				   tentaMelhorJogada,!,
+				   escolherPeca(Set,Peca),!,
+				   jogadacomputadorA(Peca,Set).
+				   
+
+jogadacomputador2dif1:-
+				   p2Set(Set),!,
+				   tentaMelhorJogada,!,
 				   escolherPeca(Set,Peca),!,
 				   jogadacomputadorB(Peca,Set).
 						   
-				   
+
+						   
+						  
 				   
 %posicoes validas
 posicaoValidaLin(0).
@@ -418,7 +449,7 @@ playpvp :- nl, display,
 		   playpvp.
 		   
 		   
-playpvc :- nl, display,
+playpvcdif2 :- nl, display,
 		   p1Set(Set1),
 		   nl,
 		   write('JOGADOR 1: '),
@@ -429,25 +460,55 @@ playpvc :- nl, display,
 		   jogadajogador1(X1,Y1,Peca1),!,
 		   verSeGanhou,  !,
 		   nl,
-		   jogadacomputador2,
+		   jogadacomputador2dif1,
 		   display,!,
 		   nl,nl,nl,nl,nl,nl,nl,nl,nl,nl,nl,nl,nl,nl,nl,nl,nl,nl,
 		   verSeGanhou,  !,
-		   playpvc.
+		   playpvcdif1.
 		   
 		   
-playcvc :- jogadacomputador1,
+playpvcdif2 :- nl, display,
+		   p1Set(Set1),
+		   nl,
+		   write('JOGADOR 1: '),
+		   nl,
+		   nl,
+		   getPecaInterface(Peca1,Set1),
+		   readCoords(X1,Y1,Peca1),
+		   jogadajogador1(X1,Y1,Peca1),!,
+		   verSeGanhou,  !,
+		   nl,
+		   jogadacomputador2dif2,
+		   display,!,
+		   nl,nl,nl,nl,nl,nl,nl,nl,nl,nl,nl,nl,nl,nl,nl,nl,nl,nl,
+		   verSeGanhou,  !,
+		   playpvcdif2.
+		   
+		   
+playcvcdif1 :- jogadacomputador1dif1,
 		   nl,
 		   write('Computador 1: '),
 		   display,!, nl,nl,
 		   verSeGanhou,!,
-		   jogadacomputador2,
+		   jogadacomputador2dif1,
 		   nl,
 		   write('Computador 2: '),
 		   display,!, nl,nl,
 		   verSeGanhou,!,
-		   playcvc.
+		   playcvcdif1.
 		   
+		   
+playcvcdif2 :- jogadacomputador1dif2,
+		   nl,
+		   write('Computador 1: '),
+		   display,!, nl,nl,
+		   verSeGanhou,!,
+		   jogadacomputador2dif2,
+		   nl,
+		   write('Computador 2: '),
+		   display,!, nl,nl,
+		   verSeGanhou,!,
+		   playcvcdif2.
 			
 
 
@@ -456,8 +517,12 @@ playcvc :- jogadacomputador1,
 opcaovalida(1).
 opcaovalida(2).
 opcaovalida(3).
+opcaovalida(4).
+opcaovalida(5).
 
-escolhetipojogo(Tipo):-write('Escolha o tipo de jogo: 1-pvp 2-pvc 3-cvc'),
+escolhetipojogo(Tipo):-write('Escolha o tipo de jogo'),nl,
+					   write('dificuldade 1: 1-pvp 2-pvc 3-cvc'),nl,
+					   write('dificuldade 2: 4-pvc 5-cvc'),
 					   nl,
 					   read(Tipo),
 					   opcaovalida(Tipo).
@@ -475,12 +540,21 @@ play2(Tipo):-
 	   
 play2(Tipo):- 
 	   Tipo=2,
-	   playpvc.
+	   playpvcdif1.
 
 play2(Tipo):- 
 	   Tipo=3,
-	   playcvc.	   
+	   playcvcdif1.	   
 
+play2(Tipo):- 
+	   Tipo=4,
+	   playpvcdif2.
+
+play2(Tipo):- 
+	   Tipo=5,
+	   playcvcdif2.	   
+	   
+	   
 	   
 play:- escolhetipojogo(Tipo),!,
 	   play2(Tipo).
@@ -501,4 +575,86 @@ resetgame:- board(Board2),
  			asserta(p1Set(P1Set)),
  			p2Setinicial(P2Set),
  			asserta(p2Set(P2Set)). 
+
+			
+			
+			
+			
+			
+			
+			
+			
+			
+
+%melhor jogada
+%tamanho diferentse----
+%pega no board, faz copia,
+%percorre a lista, faz a jogada
+%ve se ganhou,
+
+% se yes,
+%chama a jogadaX
+% se nao 
+%continua e mete random normalmente
+
+melhJog(X,Y,Peca, LastBoard, NewBoard):-getsize(Peca,Size),
+									Size='1',!,
+									board(LastBoard),!,
+									verificapeca(Set,Peca,2),!,
+									removepeca(Set,Peca,2,NewSet),!,
+									colocarpecaB(X,Y,Peca,2,n1,LastBoard,Newboard),
+									retract(board(LastBoard)),
+									asserta(board(Newboard)).
+								
+						 
+melhJog(X,Y,Peca, LastBoard, NewBoard):-getsize(Peca,Size),
+									Size='2',!,
+									board(LastBoard),!,
+									verificapeca(Set,Peca,1),!,
+									removepeca(Set,Peca,1,NewSet),!,
+									colocarpecaB(X,Y,Peca,1,n2,LastBoard,Newboard),
+									retract(board(LastBoard)),
+									asserta(board(Newboard)).
+							
+						 
+melhJog(X,Y,Peca, LastBoard, NewBoard):-getsize(Peca,Size),
+									Size='3',!,
+									board(LastBoard),!,
+									verificapeca(Set,Peca,0),!,
+									removepeca(Set,Peca,0,NewSet),!,
+									colocarpecaB(X,Y,Peca,0,n3,LastBoard,Newboard),
+									retract(board(LastBoard)),
+									asserta(board(Newboard)).
+									
+
+						 
+			
+blueG :- jogadapossivelgrande(L),percorreListaJog(L, b3).
+blueM :- jogadapossivelmedia(L),percorreListaJog(L, b2).
+blueP :- jogadapossivelpequena(L),percorreListaJog(L, b1).
+redG :- jogadapossivelgrande(L),percorreListaJog(L, r3).
+redM :- jogadapossivelmedia(L),percorreListaJog(L, r2).
+redP :- jogadapossivelpequena(L),percorreListaJog(L, r1).	
+
+tentaMelhorJogada :- blueG,blueM,blueP,redG,redM,redP.
+
+
+%Desenha o tabuleiro de jogo
+percorreListaJog([], Peca).
+percorreListaJog([Elem|Rest], Peca):-	
+	testaJogada([Elem|Rest], Peca),
+	percorreListaJog(Rest, Peca).
+	
+	
+testaJogada([], Peac).
+testaJogada([Elem|Rest], Peca):- nth0(0,[Elem|Rest],Par),
+							nth0(0,Par,X),
+							nth0(1,Par,Y),
+							melhJog(X,Y,Peca, LastBoard, NewBoard),
+							verSeGanhou,
+							retract(board(NewBoard)),
+							assert(board(LastBoard)).					
+							
+							
+							
  
