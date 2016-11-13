@@ -170,7 +170,6 @@ jogadacomputador2dif2:-
 				   
 jogadacomputador1dif1:-
 				   p1Set(Set),!,
-				   tentaMelhorJogadaR,!,
 				   escolherPeca(Set,Peca),!,
 				   jogadacomputadorA(Peca,Set).
 				
@@ -178,7 +177,6 @@ jogadacomputador1dif1:-
 %Dificuldade 1
 jogadacomputador2dif1:-
 				   p2Set(Set),!,
-				   tentaMelhorJogadaB,!,
 				   escolherPeca(Set,Peca),!,
 				   jogadacomputadorB(Peca,Set).
 						   
