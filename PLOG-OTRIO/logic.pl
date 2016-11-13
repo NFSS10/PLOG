@@ -326,8 +326,7 @@ redP :- jogadapossivelpequena(L),percorreListaJog(L, r1).
 
 
 tentaMelhorJogadaB :- blueG,blueM,blueP.
-tentaMelhorJogadaR :- blueG,blueM,blueP.
-
+tentaMelhorJogadaR :- redG,redM,redP.
 
 %PercorreLista de jogadas
 percorreListaJog([], Peca).
