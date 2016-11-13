@@ -1,4 +1,4 @@
-:- consult(board).
+:- ensure_loaded(board).
 
 
 %Traduz os simbolos para uma representação mais agradável

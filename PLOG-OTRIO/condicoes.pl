@@ -23,12 +23,33 @@ condVitoria([[r3,_,_],[r2,_,_],[r1,_,_]]) :- nl,write(' ###   Jogador 1 ganhou !
 condVitoria([[_,r3,_],[_,r2,_],[_,r1,_]]) :- nl,write(' ###   Jogador 1 ganhou !   ###'),nl.
 condVitoria([[_,_,r3],[_,_,r2],[_,_,r1]]) :- nl,write(' ###   Jogador 1 ganhou !   ###'),nl.
 
+%Verifica se Sets estao vazios
 condEmpate([
 	[[n3,n3,n3],
 	[n2,n2,n2],
 	[n1,n1,n1]]
 	]).
 
+	
+	
+	
+%Verifica se ganhou e termina o jogo caso alguem ganhe
+verSeGanhou :- 	verConcentrica,
+				verLinhaDifH,
+				verLinhaIgualH,
+				verLinhaDifV,
+				verLinhaIgualV,
+				verLinhaDiag,
+				verEmpate.
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 
 
@@ -41,11 +62,111 @@ getPiece(Tam, Lin, Col, Piece) :- escolhebloco(BlocoLinha, Lin),
 									nth0(Tam,BlocoLinha,PiecesList),
 									nth0(Col,PiecesList,Piece).
 											
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Mensagens
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+msgVitoria(L):-nl, nl, write('    ********    VITORIA!    ********'),nl,
+							write(L),
+							fail.
+							
+msgEmpate :-nl, write('---- Empate ---'), nl,
+							fail.
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 											
-											
 
 
 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Linha diagonal
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%-------- Tamanho igual -----------
+%Res e lista com as pecas, por tam selecionado na diagonal (esq. para dir.)
+selectLinhaporTamDListA(Tam, Res) :-  getPiece(Tam, 0,0, Piece), append([],[Piece],List),
+								getPiece(Tam, 1,1, Piece2), append(List,[Piece2],List2),
+								getPiece(Tam, 2,2, Piece3), append(List2,[Piece3],Res).
+%Res e lista com as pecas, por tam selecionado na diagonal (dir. para esq.)	
+selectLinhaporTamDListB(Tam, Res) :-  getPiece(Tam, 0,2, Piece), append([],[Piece],List),
+								getPiece(Tam, 1,1, Piece2), append(List,[Piece2],List2),
+								getPiece(Tam, 2,0, Piece3), append(List2,[Piece3],Res).
+			
+
+
+%-------- Tamanho diferente -----------
+%Verifica se ganhou com linha diagonal
+winCondLinhaMesmoTamD(Tam):- selectLinhaporTamDListA(Tam, Res),
+							condVitoria(Res),
+							!,
+							msgVitoria(Res).
+winCondLinhaMesmoTamD(Tam):- selectLinhaporTamDListB(Tam, Res),
+							condVitoria(Res),
+							!,
+							msgVitoria(Res).
+				
+winCondLinhaMesmoTamD(Tam).
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Concentrica
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Verifica se existe vitoria onde as pecas estao concentricas
+%Lin: 0, 1 ou 2
+winCondConcentrica(Lin) :- escolhebloco(BlocoLinha,Lin),
+							condVitoria(BlocoLinha),
+							!,
+							msgVitoria(BlocoLinha).
+winCondConcentrica(Lin).							
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Linha vertical
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%----------- Tamanho igual ----------------
+winCondLinhaMesmoTamV(Tam,Col) :- getPiece(Tam, 0,Col, Piece), append([],[Piece],List),
+								getPiece(Tam, 1,Col, Piece2), append(List,[Piece2],List2),
+								getPiece(Tam, 2,Col, Piece3), append(List2,[Piece3],PiecesList),
+								condVitoria(PiecesList),
+								!,
+								msgVitoria(PiecesList).
+winCondLinhaMesmoTamV(Tam,Lin).
+
+
+
+%---------------- Tamanho diferente -------------
+winCondLinhaDifV(Col) :- getPiece(0, 0,Col, Piece), append([],[Piece],List),
+								getPiece(1, 1,Col, Piece2), append(List,[Piece2],List2),
+								getPiece(2, 2,Col, Piece3), append(List2,[Piece3],PiecesList),
+								condVitoria(PiecesList),
+								!,
+								msgVitoria(PiecesList).
+winCondLinhaDifV(Col).
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Linha horizontal
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%----------- Tamanho igual ------------
 %Verifica se existe vitoria com linha horizontal (Tam: tamanho da peca a verificar, Lin: linha a verificar)
 %Na mesma linha tem 3 tamanhos diferentes
 %Tam: 0 - grande, 1 - medio, 2 - pequeno
@@ -58,80 +179,7 @@ winCondLinhaMesmoTamH(Tam,Lin).
 
 
 
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
-
-%Res e lista com as pecas, por tam selecionado na diagonal (esq. para dir.)
-selectLinhaporTamDListA(Tam, Res) :-  getPiece(Tam, 0,0, Piece), append([],[Piece],List),
-								getPiece(Tam, 1,1, Piece2), append(List,[Piece2],List2),
-								getPiece(Tam, 2,2, Piece3), append(List2,[Piece3],Res).
-%Res e lista com as pecas, por tam selecionado na diagonal (dir. para esq.)	
-selectLinhaporTamDListB(Tam, Res) :-  getPiece(Tam, 0,2, Piece), append([],[Piece],List),
-								getPiece(Tam, 1,1, Piece2), append(List,[Piece2],List2),
-								getPiece(Tam, 2,0, Piece3), append(List2,[Piece3],Res).
-			
-
-
-
-%Verifica se ganhou com linha diagonal
-winCondLinhaMesmoTamD(Tam):- selectLinhaporTamDListA(Tam, Res),
-							condVitoria(Res),
-							!,
-							msgVitoria(Res).
-winCondLinhaMesmoTamD(Tam):- selectLinhaporTamDListB(Tam, Res),
-							condVitoria(Res),
-							!,
-							msgVitoria(Res).
-
-							
-winCondLinhaMesmoTamD(Tam).
-
-msgVitoria(L):-nl, nl, write('    ********    VITORIA!    ********'),nl,
-							write(L),
-							fail.
-							
-msgEmpate :-nl, write('---- Empate ---'), nl,
-							fail.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-%Verifica se existe vitoria onde as pecas estao concentricas
-%Lin: 0, 1 ou 2
-winCondConcentrica(Lin) :- escolhebloco(BlocoLinha,Lin),
-							condVitoria(BlocoLinha),
-							!,
-							msgVitoria(BlocoLinha).
-winCondConcentrica(Lin).							
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%Mesmo tamanho
-winCondLinhaMesmoTamV(Tam,Col) :- getPiece(Tam, 0,Col, Piece), append([],[Piece],List),
-								getPiece(Tam, 1,Col, Piece2), append(List,[Piece2],List2),
-								getPiece(Tam, 2,Col, Piece3), append(List2,[Piece3],PiecesList),
-								condVitoria(PiecesList),
-								!,
-								msgVitoria(PiecesList).
-winCondLinhaMesmoTamV(Tam,Lin).
-
-
-
-
-winCondLinhaDifV(Col) :- getPiece(0, 0,Col, Piece), append([],[Piece],List),
-								getPiece(1, 1,Col, Piece2), append(List,[Piece2],List2),
-								getPiece(2, 2,Col, Piece3), append(List2,[Piece3],PiecesList),
-								condVitoria(PiecesList),
-								!,
-								msgVitoria(PiecesList).
-winCondLinhaDifV(Col).
-
-
-
+%----------- Tamanho diferente ---------------
 winCondLinhaDifHA(Lin) :- getPiece(0, Lin,0, Piece), append([],[Piece],List),
 								getPiece(1, Lin,1, Piece2), append(List,[Piece2],List2),
 								getPiece(2, Lin,2, Piece3), append(List2,[Piece3],PiecesList),
@@ -141,8 +189,6 @@ winCondLinhaDifHA(Lin) :- getPiece(0, Lin,0, Piece), append([],[Piece],List),
 winCondLinhaDifHA(Lin).
 
 
-
-
 winCondLinhaDifHB(Lin) :- getPiece(0, Lin,2, Piece), append([],[Piece],List),
 								getPiece(1, Lin,1, Piece2), append(List,[Piece2],List2),
 								getPiece(2, Lin,0, Piece3), append(List2,[Piece3],PiecesList),
@@ -150,21 +196,30 @@ winCondLinhaDifHB(Lin) :- getPiece(0, Lin,2, Piece), append([],[Piece],List),
 								!,
 								msgVitoria(PiecesList).
 winCondLinhaDifHB(Lin).
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 
 
+
+
+
+
+
+%Verificacao de empate
 empS1 :- p1Set(Ja), condEmpate(Ja).
 empS2 :- p2Set(Jb), condEmpate(Jb).
 empate :-  empS1,  empS2, !.
 
+
+%Ve se ha empate
 verEmpate :- empate, !,	msgEmpate.
 verEmpate.
 					
 
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Verificam as varias condicoes
+%... mudar para ciclo talvez...
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 verLinhaIgualV :-	winCondLinhaMesmoTamV(0,0),
 					winCondLinhaMesmoTamV(0,1),
 					winCondLinhaMesmoTamV(0,2),
@@ -213,13 +268,6 @@ verLinhaDiag :- winCondLinhaMesmoTamD(0),
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-verSeGanhou :- 	verConcentrica,
-				verLinhaDifH,
-				verLinhaIgualH,
-				verLinhaDifV,
-				verLinhaIgualV,
-				verLinhaDiag,
-				verEmpate.
 
 
 
