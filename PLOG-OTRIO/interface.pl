@@ -1,5 +1,5 @@
 :- consult(draw).
-:- consult(engine).
+:- consult(condicoes).
 
 
 
