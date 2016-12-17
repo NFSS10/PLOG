@@ -18,7 +18,8 @@ cube([
 main(X) :- cube(X),
 		domain(X,1,4),
 		
-		labeling([],X).
+		labeling([],X),
+		write(X).
 
 jogada(P1,P2,P3,P4,P5)	:-	(P1 #= 1 #/\ (P2 #= 4 #\ P3 #=4 #\ P4 #=4 #\ P5 #=4))
 							#\/
