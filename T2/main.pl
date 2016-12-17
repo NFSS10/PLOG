@@ -53,6 +53,7 @@ getLinhaBaixoAdj(N, Pos, A1, A2, A3, A4)	:-	linhaBaixo(N, Pos), !,
 calculaLB(N, Pos, A1, A2, A3, A4) 	:-	getAdjCantoBE(N, Pos, A1, A2, A3, A4), nl,write('calc 1').
 calculaLB(N, Pos, A1, A2, A3, A4) 	:-	getLinhaBaixoF1(N, Pos, A1, A2, A3, A4), nl,write('calc 2').
 calculaLB(N, Pos, A1, A2, A3, A4) 	:-	getLinhaBaixoF2(N, Pos, A1, A2, A3, A4), nl,write('calc 3').
+calculaLB(N, Pos, A1, A2, A3, A4) 	:-	getLinhaBaixoF3(N, Pos, A1, A2, A3, A4), nl,write('calc 4').
 calculaLB(N, Pos, A1, A2, A3, A4) 	:- 	write('erro').
 	
 
@@ -112,5 +113,26 @@ getLinhaBaixoF2aux(N, Pos, A1, A2, A3, A4)	:-	A1 is Pos + 1,
 												A2 is Pos + (4 * N),
 												A3 is Pos  - 1,
 												A4 is Pos - (4 * N).
+												
+												
+												
+												
+
+%%%%%
+verificaLBF3(N, Pos)	:-	getPosRLinha(N, Pos, PosR),
+							PosR >= (2*N), !,
+							PosR < 3*N,
+							nl, write('  Face  3 ').
+getLinhaBaixoF3(N, Pos, A1, A2, A3, A4)	:-	verificaLBF3(N, Pos), !,
+											getLinhaBaixoF3aux(N, Pos, A1, A2, A3, A4).
+getLinhaBaixoF3aux(N, Pos, A1, A2, A3, A4)	:-	getPosRLinha(N, Pos, PosR),
+												PosRF is PosR - (2*N),
+												Resto is (4*N) - PosR - 1,
+												A1 is Pos + 1,
+												A2 is Pos + Resto + (2 * N) + (2*N*(PosRF)),
+												A3 is Pos  - 1,
+												A4 is Pos - (4 * N).												
+												
+
 											
 						
