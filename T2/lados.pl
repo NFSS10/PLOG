@@ -6,7 +6,7 @@ calculaLC(N, Pos, A1, A2, A3, A4)	:-	getAdjLD(N, Pos, A1, A2, A3, A4), nl, write
 calculaLC(N, Pos, A1, A2, A3, A4)	:-	write('erro calculaLCE').
 
 
-
+%Lado esquerdo - linha cima e linha de baixo
 getPosRLE(N, Pos, PosR)	:-	PosR is mod(Pos,(4*N)).
 
 %verifica se é canto baixo esquerdo										
@@ -25,7 +25,11 @@ getAdjLEaux(N, Pos, A1, A2, A3, A4)	:-	A1 is Pos + 1,
 
 
 										
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%									
+										
+										
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%			
+
+						
 										
 getPosRLD(N, Pos, PosR)	:-	Pos1 is Pos + 1, 
 							getPosRLE(N, Pos1, PosR).
