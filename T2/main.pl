@@ -1,4 +1,5 @@
 :- use_module(library(lists)).
+:- use_module(library(clpfd)).
 
 %Cubo
 cube([
@@ -14,7 +15,7 @@ cube([
 ]).
 
 
-main :- cube(X),
+main(X) :- cube(X),
 		domain(X,1,4),
 		
 		labeling([],X).
