@@ -18,7 +18,7 @@ getLinhaBaixoAdj(N, Pos, A1, A2, A3, A4)	:-	linhaBaixo(N, Pos), !,
 
 									
 
-									
+%devolve para pos os indices dos adjacentes								
 calculaLB(N, Pos, A1, A2, A3, A4) 	:-	getAdjCantoBE(N, Pos, A1, A2, A3, A4), nl,write('calc 1').
 calculaLB(N, Pos, A1, A2, A3, A4) 	:-	getLinhaBaixoF1(N, Pos, A1, A2, A3, A4), nl,write('calc 2').
 calculaLB(N, Pos, A1, A2, A3, A4) 	:-	getLinhaBaixoF2(N, Pos, A1, A2, A3, A4), nl,write('calc 3').
