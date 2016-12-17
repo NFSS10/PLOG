@@ -1,5 +1,4 @@
-:- use_module(library(lists)).
-:- use_module(library(clpfd)).
+:- ensure_loaded(util).
 
 
 %verifica se pertence a linha de baixo				
@@ -25,16 +24,16 @@ calculaLB(N, Pos, A1, A2, A3, A4) 	:-	getLinhaBaixoF2(N, Pos, A1, A2, A3, A4), n
 calculaLB(N, Pos, A1, A2, A3, A4) 	:-	getLinhaBaixoF3(N, Pos, A1, A2, A3, A4), nl,write('calc 4').
 calculaLB(N, Pos, A1, A2, A3, A4) 	:-	getLinhaBaixoF4(N, Pos, A1, A2, A3, A4), nl,write('calc 5').
 calculaLB(N, Pos, A1, A2, A3, A4) 	:-	verifCantoBD(N, Pos, A1, A2, A3, A4), nl,write('calc 6').
-calculaLB(N, Pos, A1, A2, A3, A4) 	:- 	write('erro').
+calculaLB(N, Pos, A1, A2, A3, A4) 	:- 	write('erro calculaLB').
 	
 
 
-
-												
 getPosRLinha(N, Pos, PosR) :-	TamL is 4*N,
 							Col is N-1,
 							LimMin is TamL * Col,
 							PosR is Pos - LimMin.						
+												
+					
 												
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
