@@ -8,7 +8,7 @@ cube([
 	P24,	P25,	P26,	P27,	P28,	P29,	P30,	P31,	P32,	P33,	P34,	P35,
 
 	
-	%Topo						%Base
+
 	P36,	P37,	P38,		P39,	P40,	P41,	
 	P42,	P43,	P44,		P45,	P46,	P47,
 	P48,	P49,	P50,		P51,	P52,	P53
@@ -29,4 +29,48 @@ jogada(P1,P2,P3,P4,P5)	:-	(P1 #= 1 #/\ (P2 #= 4 #\ P3 #=4 #\ P4 #=4 #\ P5 #=4))
 							#\/
 							(P1 #= 4 #/\ (P2 #= 2 #\ P3 #=2 #\ P4 #=2 #\ P5 #=2)).
 							
+
+
+
 							
+linhaBaixo(N, Pos)	:-	TamL is 4*N,
+						Col is N-1,
+						LimMin is TamL * Col,
+						LimMax is LimMin + TamL,
+						Pos >= LimMin, !,
+						Pos < LimMax,
+						nl, write('Linha Baixo').
+						
+getLinhaBaixoAdj(N, Pos, A1, A2, A3, A4)	:-	linhaBaixo(N, Pos), !,
+												nl, write('continua'),
+												\+getAdjCantoBE(N, Pos, A1, A2, A3, A4), !,
+												nl, write('E da-lhe').
+
+									
+
+									
+									
+		
+		
+		
+		
+getAdjCantoBE(N, Pos, A1, A2, A3, A4)	:- 	verifCantoBE(N, Pos), !,
+											getAdjCantoBEaux(N, Pos, A1, A2, A3, A4).
+
+
+getAdjCantoBEaux(N, Pos, A1, A2, A3, A4)	:-	A1 is Pos + 1,
+												A2 is Pos + (4 * N) + (((2*N) * N) - N),
+												
+												
+												nl,nl, write('Resteste: '), write(A1),
+												write(' '), write(A2).
+
+										
+%verifica se é canto baixo esquerdo										
+verifCantoBE(N, Pos)	:-	TamL is 4*N,
+					Col is N-1,
+					LimMin is TamL * Col,
+					Pos = LimMin,
+					nl, write('Canto esquerdo').
+											
+						
