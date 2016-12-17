@@ -8,7 +8,7 @@ cube([
 	P24,	P25,	P26,	P27,	P28,	P29,	P30,	P31,	P32,	P33,	P34,	P35,
 
 	
-
+	%topo						%baixo
 	P36,	P37,	P38,		P39,	P40,	P41,	
 	P42,	P43,	P44,		P45,	P46,	P47,
 	P48,	P49,	P50,		P51,	P52,	P53
@@ -60,10 +60,14 @@ getAdjCantoBE(N, Pos, A1, A2, A3, A4)	:- 	verifCantoBE(N, Pos), !,
 
 getAdjCantoBEaux(N, Pos, A1, A2, A3, A4)	:-	A1 is Pos + 1,
 												A2 is Pos + (4 * N) + (((2*N) * N) - N),
+												A3 is Pos + ((4 * N) - 1),
+												A4 is Pos - (4 * N),
 												
 												
 												nl,nl, write('Resteste: '), write(A1),
-												write(' '), write(A2).
+												write(' '), write(A2),
+												write(' '), write(A3),
+												write(' '), write(A4).
 
 										
 %verifica se é canto baixo esquerdo										
