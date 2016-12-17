@@ -42,18 +42,22 @@ linhaBaixo(N, Pos)	:-	TamL is 4*N,
 						nl, write('Linha Baixo').
 						
 getLinhaBaixoAdj(N, Pos, A1, A2, A3, A4)	:-	linhaBaixo(N, Pos), !,
-												nl, write('continua'),
-												\+getAdjCantoBE(N, Pos, A1, A2, A3, A4), !,
-												nl, write('E da-lhe').
+												calculaLB(N, Pos, A1, A2, A3, A4),
+												nl, write('finish').
 
 									
 
 									
-									
-		
-		
-		
-		
+calculaLB(N, Pos, A1, A2, A3, A4) 	:-	getAdjCantoBE(N, Pos, A1, A2, A3, A4), nl,write('calc 1').
+calculaLB(N, Pos, A1, A2, A3, A4) 	:-	getLinhaBaixo(N, Pos, A1, A2, A3, A4), nl,write('calc 2').
+calculaLB(N, Pos, A1, A2, A3, A4) 	:- 	write('erro').
+	
+
+
+
+
+
+	
 getAdjCantoBE(N, Pos, A1, A2, A3, A4)	:- 	verifCantoBE(N, Pos), !,
 											getAdjCantoBEaux(N, Pos, A1, A2, A3, A4).
 
@@ -61,14 +65,23 @@ getAdjCantoBE(N, Pos, A1, A2, A3, A4)	:- 	verifCantoBE(N, Pos), !,
 getAdjCantoBEaux(N, Pos, A1, A2, A3, A4)	:-	A1 is Pos + 1,
 												A2 is Pos + (4 * N) + (((2*N) * N) - N),
 												A3 is Pos + ((4 * N) - 1),
-												A4 is Pos - (4 * N),
-												
-												
-												nl,nl, write('Resteste: '), write(A1),
-												write(' '), write(A2),
-												write(' '), write(A3),
-												write(' '), write(A4).
+												A4 is Pos - (4 * N).
 
+												
+												
+getPosRLinha(N, PosR) :-	TamL is 4*N,
+							Col is N-1,
+							LimMin is TamL * Col,
+							PosR is Pos - LimMin,.						
+												
+getLinhaBaixoF1(N, Pos, A1, A2, A3, A4)	:-	getPosRLinha(N, PosR),
+											write('    '), write(PosR),
+
+											A1 is Pos + 1,					
+											A2 is Pos + (4 * N) + (((2*N) * N) - N - PosR-(PosR *2*N)),
+											A3 is Pos - 1,
+											A4 is Pos - (4 * N).
+												
 										
 %verifica se é canto baixo esquerdo										
 verifCantoBE(N, Pos)	:-	TamL is 4*N,
