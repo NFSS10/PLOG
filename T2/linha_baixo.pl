@@ -24,6 +24,9 @@ calculaLB(N, Pos, A1, A2, A3, A4) 	:-	getLinhaBaixoF2(N, Pos, A1, A2, A3, A4), n
 calculaLB(N, Pos, A1, A2, A3, A4) 	:-	getLinhaBaixoF3(N, Pos, A1, A2, A3, A4), nl,write('calc 4').
 calculaLB(N, Pos, A1, A2, A3, A4) 	:-	getLinhaBaixoF4(N, Pos, A1, A2, A3, A4), nl,write('calc 5').
 calculaLB(N, Pos, A1, A2, A3, A4) 	:-	verifCantoBD(N, Pos, A1, A2, A3, A4), nl,write('calc 6').
+calculaLB(N, Pos, A1, A2, A3, A4) 	:-	getLinhaBaixoBCE(N, Pos, A1, A2, A3, A4), nl,write('calc 7').
+calculaLB(N, Pos, A1, A2, A3, A4) 	:-	getLinhaBaixoBCD(N, Pos, A1, A2, A3, A4), nl,write('calc 8').
+calculaLB(N, Pos, A1, A2, A3, A4) 	:-	getLinhaBaixoBC(N, Pos, A1, A2, A3, A4), nl,write('calc 9').
 calculaLB(N, Pos, A1, A2, A3, A4) 	:- 	write('erro calculaLB').
 	
 
@@ -135,5 +138,50 @@ verifCantoBDaux(N, Pos, A1, A2, A3, A4)	:-	getPosRLinha(N, Pos, PosR),
 												A4 is Pos - (4 * N).	
 
 
+												
+												
+												
+									
+getPosRLinhaBB(N, Pos, PosR)	:-	Meio is 4*N*N,
+									PosR is Pos - Meio - ((2*N)*(N-1)) - N.
+%Baixo, canto esquerdo									
+verificaLBBCE(N, Pos)	:-	getPosRLinhaBB(N, Pos, PosR),
+							PosR = 0,
+							nl, write('Baixo Linha Baixo Canto esquerdo').
+getLinhaBaixoBCE(N, Pos, A1, A2, A3, A4)	:-	verificaLBBCE(N, Pos), !,
+											getLinhaBaixoBCEaux(N, Pos, A1, A2, A3, A4).
+getLinhaBaixoBCEaux(N, Pos, A1, A2, A3, A4)	:-	getPosRLinhaBB(N, Pos, PosR),
+												A1 is Pos + 1,
+												A2 is ((4*N*N) - 1),
+												A3 is (4*N*N) - (4*N) ,
+												A4 is Pos - (2 * N).													
+												
+
+%Baixo, canto direito
+verificaLBBCD(N, Pos)	:-	getPosRLinhaBB(N, Pos, PosR),
+							Lim is (N -1),
+							PosR = Lim,
+							nl, write('Baixo Linha Baixo Canto direito').
+getLinhaBaixoBCD(N, Pos, A1, A2, A3, A4)	:-	verificaLBBCD(N, Pos), !,
+											getLinhaBaixoBCDaux(N, Pos, A1, A2, A3, A4).
+getLinhaBaixoBCDaux(N, Pos, A1, A2, A3, A4)	:-	getPosRLinhaBB(N, Pos, PosR),
+												A1 is ((4*N*N) - PosR - N + 1),
+												A2 is ((4*N*N) - PosR - 1),
+												A3 is Pos - 1,
+												A4 is Pos - (2 * N).								
+
+%Baixo, centro
+verificaLBBC(N, Pos)	:-	getPosRLinhaBB(N, Pos, PosR),
+							LimMax is (N -1),
+							PosR > 0, !,
+							PosR < LimMax,
+							nl, write('Baixo Linha Baixo Centro').
+getLinhaBaixoBC(N, Pos, A1, A2, A3, A4)	:-	verificaLBBC(N, Pos), !,
+											getLinhaBaixoBCaux(N, Pos, A1, A2, A3, A4).
+getLinhaBaixoBCaux(N, Pos, A1, A2, A3, A4)	:-	getPosRLinhaBB(N, Pos, PosR),
+												A1 is Pos + 1,
+												A2 is ((4*N*N) - PosR - 1),
+												A3 is Pos - 1,
+												A4 is Pos - (2 * N).								
 												
 						
