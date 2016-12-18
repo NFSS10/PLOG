@@ -339,7 +339,7 @@ adjacente(P,Adj1,Adj2,Adj3,Adj4,N):-
 										P>N*N*4,
 										ladoDireitoTopo(P,Adj1,Adj2,Adj3,Adj4,N).
 										
-adjacente(P,Adj1,Adj2,Adj3,Adj4,N):-
+adjacenteee(P,Adj1,Adj2,Adj3,Adj4,N):-
 										0 is mod(P,N),
 										P>N*N*4,
 										write('lado esquerdo da base').

@@ -1,5 +1,6 @@
 :- ensure_loaded(linha_baixo).
 :- ensure_loaded(lados).
+:- ensure_loaded(paulostuff).
 
 %Cubo N=3
 cube([
