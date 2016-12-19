@@ -61,11 +61,20 @@ ttt(X,N):-
 			length(X,Tam), 
 			domain(X,1,4),
 			while(Tam, 0,X,N),
-			labeling([],X).
+			reset_timer,
+			labeling([],X),
+			print_time,
+			fd_statistics.
+			
+reset_timer :- statistics(walltime,_).	
+print_time :-
+	statistics(walltime,[_,T]),
+	TS is ((T//10)*10)/1000,
+	nl, write('Time: '), write(TS), write('s'), nl, nl.
 
 
 
-ola:-findall(X,ttt(X),Bag).
+
 
 
 									 
