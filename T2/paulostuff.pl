@@ -24,11 +24,11 @@ verificaAdjLCF2(P,Adj,N):- 	Adj is P+N*4;
 
 			
 
-verificaAdjLCF3(P,Adj,N):- 	PI is P-(2*N),
+verificaAdjLCF3(P,Adj,N):- 	PI is (3*N)-P,
 							(Adj is P+N*4;
 							 Adj is P-1;
 							 Adj is P+1;
-							 Adj is (PI*2*N)+(N*N*4)+(N-1)).
+							 Adj is ((PI-1)*2*N)+(N*N*4)+(N-1)).
 							
 							
 							
