@@ -63,7 +63,7 @@ ttt(X,N):-
 			domain(X,1,4),
 			while(Tam, 0,X,N),
 			reset_timer,
-			labeling([],X),
+			labeling([ff],X),
 			display_cube(X,N),
 			print_time,
 			fd_statistics.
