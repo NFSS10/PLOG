@@ -55,8 +55,8 @@ getPosRLinha(N, Pos, PosR) :-	TamL is 4*N,
 					
 												
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%verifica se é canto baixo esquerdo										
+%Linha de baixo do principal
+%vbaixo canto esquerdo									
 verifCantoBE(N, Pos)	:-	TamL is 4*N,
 					Col is N-1,
 					LimMin is TamL * Col,
@@ -72,7 +72,7 @@ getAdjCantoBEaux(N, Pos, A1, A2, A3, A4)	:-	A1 is Pos + 1,
 												
 												
 												
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%baixo face 1
 verificaLBF1(N, Pos)	:-	getPosRLinha(N, Pos, PosR),
 							PosR > 0, !,
 							PosR < N,
@@ -87,11 +87,10 @@ getLinhaBaixoF1aux(N, Pos, A1, A2, A3, A4)	:-	getPosRLinha(N, Pos, PosR),
 											A4 is Pos - (4 * N).
 												
 										
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%baixo face 2
 verificaLBF2(N, Pos)	:-	getPosRLinha(N, Pos, PosR),
 							PosR >= N, !,
 							PosR < 2*N,
@@ -107,7 +106,7 @@ getLinhaBaixoF2aux(N, Pos, A1, A2, A3, A4)	:-	A1 is Pos + 1,
 												
 												
 
-%%%%%
+%baixo face 3
 verificaLBF3(N, Pos)	:-	getPosRLinha(N, Pos, PosR),
 							PosR >= (2*N), !,
 							PosR < 3*N,
@@ -123,7 +122,7 @@ getLinhaBaixoF3aux(N, Pos, A1, A2, A3, A4)	:-	getPosRLinha(N, Pos, PosR),
 												A4 is Pos - (4 * N).												
 												
 
-%%%%%
+%baixo face4
 verificaLBF4(N, Pos)	:-	getPosRLinha(N, Pos, PosR),
 							PosR >= (3*N), !,
 							PosR < ((4*N) - 1),
@@ -138,7 +137,7 @@ getLinhaBaixoF4aux(N, Pos, A1, A2, A3, A4)	:-	getPosRLinha(N, Pos, PosR),
 												A3 is Pos  - 1,
 												A4 is Pos - (4 * N).	
 
-
+%Baixo canto direito
 verificaLBCD(N, Pos)	:-	getPosRLinha(N, Pos, PosR),
 							Lim is ((4 * N)-1),
 							PosR = Lim,
@@ -153,10 +152,13 @@ getCantoBDaux(N, Pos, A1, A2, A3, A4)	:-	getPosRLinha(N, Pos, PosR),
 												A3 is Pos  - 1,
 												A4 is Pos - (4 * N).	
 
+%##############################################################
+
+
 
 												
 												
-												
+%BASE------------------------------------------------------												
 									
 getPosRLinhaBB(N, Pos, PosR)	:-	Meio is 4*N*N,
 									PosR is Pos - Meio - ((2*N)*(N-1)) - N.
