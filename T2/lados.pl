@@ -1,6 +1,7 @@
 :- ensure_loaded(util).
 
 %calcula colunas nos extremos
+calcLados(N,Pos,A1,A2,A3,A4)	:-	calculaLC(N, Pos, A1, A2, A3, A4).	
 calculaLC(N, Pos, A1, A2, A3, A4)	:-	getAdjLE(N, Pos, A1, A2, A3, A4), nl, write('calc 1').
 calculaLC(N, Pos, A1, A2, A3, A4)	:-	getAdjLD(N, Pos, A1, A2, A3, A4), nl, write('calc 2').
 
