@@ -2,7 +2,7 @@
 :- ensure_loaded(lados).
 :- ensure_loaded(paulostuff).
 :- ensure_loaded(print).
-
+:-dynamic(cube/1).
 %Cubo N=3
 cube([
 	%------ F1 -------      ------- F2 --------		------- F3 --------		------- F4 --------					
@@ -24,13 +24,17 @@ main(X) :- cube(X),
 		labeling([],X),
 		write(X).
 
-jogada(P1,P2,P3,P4,P5)	:-	(P1 #= 1 #/\ (P2 #= 4 #\ P3 #=4 #\ P4 #=4 #\ P5 #=4))
+jogada(P1,P2,P3,P4,P5)	:-	(P1 #= 1 #/\ ((P2#=4 #\/ P3#=4 #\/ P3#=4 #\/ P5#=4)#/\((#\(P2 #= 4 #/\ P3 #=4)) #/\ (#\(P2 #= 4 #/\ P4 #=4))#/\ (#\(P2 #= 4 #/\ P5 #=4))
+									#/\ (#\(P3 #= 4 #/\ P4 #=4)) #/\ (#\(P3 #= 4 #/\ P5 #=4)) #/\ (#\(P4 #= 4 #/\ P5 #=4)))))
 							#\/
-							(P1 #= 2 #/\ (P2 #= 3 #\ P3 #=3 #\ P4 #=3 #\ P5 #=3))
+							(P1 #= 2 #/\ ((P2#=3 #\/ P3#=3 #\/ P3#=3 #\/ P5#=3)#/\((#\(P2 #= 3 #/\ P3 #=3)) #/\ (#\(P2 #= 3 #/\ P4 #=3))#/\ (#\(P2 #= 3 #/\ P5 #=3))
+									#/\ (#\(P3 #= 3 #/\ P4 #=3)) #/\ (#\(P3 #= 3 #/\ P5 #=3)) #/\ (#\(P4 #= 3 #/\ P5 #=3)))))
 							#\/
-							(P1 #= 3 #/\ (P2 #= 1 #\ P3 #=1 #\ P4 #=1 #\ P5 #=1))
+							(P1 #= 3 #/\ ((P2#=1 #\/ P3#=1 #\/ P3#=1 #\/ P5#=1)#/\((#\(P2 #= 1 #/\ P3 #=1)) #/\ (#\(P2 #= 1 #/\ P4 #=1))#/\ (#\(P2 #= 1 #/\ P5 #=1))
+									#/\ (#\(P3 #= 1 #/\ P4 #=1)) #/\ (#\(P3 #= 1 #/\ P5 #=1)) #/\ (#\(P4 #= 1 #/\ P5 #=1)))))
 							#\/
-							(P1 #= 4 #/\ (P2 #= 2 #\ P3 #=2 #\ P4 #=2 #\ P5 #=2)).
+							(P1 #= 4 #/\ ((P2#=2 #\/ P3#=2 #\/ P3#=2 #\/ P5#=2)#/\((#\(P2 #= 2 #/\ P3 #=2)) #/\ (#\(P2 #= 2 #/\ P4 #=2))#/\ (#\(P2 #= 2 #/\ P5 #=2))
+									#/\ (#\(P3 #= 2 #/\ P4 #=2)) #/\ (#\(P3 #= 2 #/\ P5 #=2)) #/\ (#\(P4 #= 2 #/\ P5 #=2))))).
 							
 
 %0  1  2  3     4  5  6  7 	 8  9  10  11	 12  13  14  15
@@ -63,10 +67,11 @@ ttt(X,N):-
 			domain(X,1,4),
 			while(Tam, 0,X,N),
 			reset_timer,
-			labeling([ff],X),
-			display_cube(X,N),
+			labeling([ffc],X),
 			print_time,
+			display_cube(X,N),
 			fd_statistics.
+
 			
 reset_timer :- statistics(walltime,_).	
 print_time :-
@@ -141,7 +146,8 @@ adjacente(P,Adj1,Adj2,Adj3,Adj4,N):-
 										P>N*N*4,
 										getAdjLBE(N,P,Adj1,Adj2,Adj3,Adj4).
 										
-adjacente(P,Adj1,Adj2,Adj3,Adj4,N):- 	linhaMeioTampas(P,Adj1,Adj2,Adj3,Adj4,N).
+adjacente(P,Adj1,Adj2,Adj3,Adj4,N):- 	P>N*N*4,
+										linhaMeioTampas(P,Adj1,Adj2,Adj3,Adj4,N).
 
 
 
