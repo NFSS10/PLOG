@@ -1,6 +1,7 @@
 :- ensure_loaded(linha_baixo).
 :- ensure_loaded(lados).
 :- ensure_loaded(paulostuff).
+:- ensure_loaded(print).
 
 %Cubo N=3
 cube([
@@ -63,6 +64,7 @@ ttt(X,N):-
 			while(Tam, 0,X,N),
 			reset_timer,
 			labeling([],X),
+			display_cube(X,N),
 			print_time,
 			fd_statistics.
 			
