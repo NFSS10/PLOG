@@ -16,10 +16,12 @@ verificaAdjC1(P,Adj,N):-	P = 0,
 							Adj is (P*2*N)+(N*N*4)).
 							
 
-verificaAdjLCF2(P,Adj,N):- 	Adj is P+N*4;
+verificaAdjLCF2(P,Adj,N):- 	Pr is P-N,
+							(
+							Adj is P+N*4;
 							Adj is P-1;
 							Adj is P+1;
-							Adj is P+(N*N*4)+3*N.
+							Adj is 4*N*N+(N-1)*N*2+Pr).
 			
 
 			
