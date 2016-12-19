@@ -32,7 +32,7 @@ jogada(P1,P2,P3,P4,P5)	:-	(P1 #= 1 #/\ (P2 #= 4 #\ P3 #=4 #\ P4 #=4 #\ P5 #=4))
 							(P1 #= 4 #/\ (P2 #= 2 #\ P3 #=2 #\ P4 #=2 #\ P5 #=2)).
 							
 
-%0  1  2  3 4  5  6  7 		 8  9  10  11	 12  13  14  15
+%0  1  2  3     4  5  6  7 	 8  9  10  11	 12  13  14  15
 %16 17 18 19   20 21 22 23   24 25 26  27    28  29  30  31
 %32 33 34 35   36 37 38 39   40 41 42  43    44  45  46  47
 %48 49 50 51   52 53 54 55   56 57 58  59    60  61  62  63
@@ -43,18 +43,29 @@ jogada(P1,P2,P3,P4,P5)	:-	(P1 #= 1 #/\ (P2 #= 4 #\ P3 #=4 #\ P4 #=4 #\ P5 #=4))
 %80 81 82 83   84 85 86 87
 %88 89 90 91   92 93 94 95
 
-while(0,_).
-while(N, A) :-	N1 is N -1,
-				nl, write(A),
-				A1 is A + 1,
-				while(N1, A1).
+while(0,_ , Cube,_).
+while(N, A, Cube,Nr) :-	N1 is N -1,
+						adjacente(A,Adj1,Adj2,Adj3,Adj4,Nr),
+						nth0(A,Cube,Peca),
+						nth0(Adj1,Cube,PecaA1),
+						nth0(Adj2,Cube,PecaA2),
+						nth0(Adj3,Cube,PecaA3),
+						nth0(Adj4,Cube,PecaA4),
+						jogada(Peca,PecaA1,PecaA2,PecaA3,PecaA4),
+						A1 is A + 1,
+						while(N1, A1,Cube,Nr).
 
 
-ttt :-	Tam is 6*3*3, while(Tam, 0).
+ttt(X,N):-
+			Tam is 6*N*N,
+			length(X,Tam), 
+			domain(X,1,4),
+			while(Tam, 0,X,N),
+			labeling([],X).
 
 
 
-
+ola:-findall(X,ttt(X),Bag).
 
 
 									 
@@ -107,7 +118,7 @@ adjacente(P,Adj1,Adj2,Adj3,Adj4,N):-
 adjacente(P,Adj1,Adj2,Adj3,Adj4,N):-
 										0 is mod(P+1,2*N),
 										P>N*N*4,
-										getAdjLBD(P,Adj1,Adj2,Adj3,Adj4,N).
+										getAdjLBD(N,P,Adj1,Adj2,Adj3,Adj4).
 										
 adjacente(P,Adj1,Adj2,Adj3,Adj4,N):-
 										0 is mod(P+1,N),
@@ -117,7 +128,7 @@ adjacente(P,Adj1,Adj2,Adj3,Adj4,N):-
 adjacente(P,Adj1,Adj2,Adj3,Adj4,N):-
 										0 is mod(P,N),
 										P>N*N*4,
-										getAdjLBE(P,Adj1,Adj2,Adj3,Adj4,N).
+										getAdjLBE(N,P,Adj1,Adj2,Adj3,Adj4).
 										
 adjacente(P,Adj1,Adj2,Adj3,Adj4,N):- 	linhaMeioTampas(P,Adj1,Adj2,Adj3,Adj4,N).
 
