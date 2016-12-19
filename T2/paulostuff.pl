@@ -282,68 +282,6 @@ ladoBaixoTopo(P,Adj1,Adj2,Adj3,Adj4,N):- findall(I,linhaBaixoTopoAux(P,I,N),Bag)
 
 
 
-									 
-%linha de cima										 
-adjacente(P,Adj1,Adj2,Adj3,Adj4,N):-	((P>=0,
-										P<4*N);
-										(P>=N*N*4,
-										P < N*N*4+2*N)),
-										linhaCima(P,Adj1,Adj2,Adj3,Adj4,N).
-										
-%linha de baixo										
-adjacente(P,Adj1,Adj2,Adj3,Adj4,N):-	P>=(N-1)*N*4,
-										P<4*N*N,
-										write('linha de baixo principal').
-										
-adjacente(P,Adj1,Adj2,Adj3,Adj4,N):-	P>=(N*N*4+N*N*2)-2*N,
-										P < N*N*4+N*N*2-N,
-										ladoBaixoTopo(P,Adj1,Adj2,Adj3,Adj4,N).
-										
-adjacente(P,Adj1,Adj2,Adj3,Adj4,N):-	P>=(N*N*4+N*N*2)-N,
-										P< 4*N*N+2*N*N,
-										write('linha de baixo Base').
-		
 
-		
-%lados	do principal						
-adjacente(P,Adj1,Adj2,Adj3,Adj4,N):-
-										0 is mod(P,4*N),
-										P<N*N*4,
-										write('lado esquerdo do principal').
-																
-adjacente(P,Adj1,Adj2,Adj3,Adj4,N):-
-										0 is mod(P+1,4*N),
-										P<N*N*4,
-										write('lado direito do principal').
-										
-%meio do principal 
-
-adjacente(P,Adj1,Adj2,Adj3,Adj4,N):-	P<N*N*4,
-										linhaMeioPrincipal(P,Adj1,Adj2,Adj3,Adj4,N).
-										
-										
-%lados das tampas
-
-adjacente(P,Adj1,Adj2,Adj3,Adj4,N):-
-										0 is mod(P,2*N),
-										P>N*N*4,
-										ladoEsquerdoTopo(P,Adj1,Adj2,Adj3,Adj4,N).
-										
-adjacente(P,Adj1,Adj2,Adj3,Adj4,N):-
-										0 is mod(P+1,2*N),
-										P>N*N*4,
-										write('lado direito da base').
-										
-adjacente(P,Adj1,Adj2,Adj3,Adj4,N):-
-										0 is mod(P+1,N),
-										P>N*N*4,
-										ladoDireitoTopo(P,Adj1,Adj2,Adj3,Adj4,N).
-										
-adjacenteee(P,Adj1,Adj2,Adj3,Adj4,N):-
-										0 is mod(P,N),
-										P>N*N*4,
-										write('lado esquerdo da base').
-										
-adjacente(P,Adj1,Adj2,Adj3,Adj4,N):- 	linhaMeioTampas(P,Adj1,Adj2,Adj3,Adj4,N).
 										
 																

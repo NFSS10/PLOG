@@ -1,13 +1,18 @@
 :- ensure_loaded(util).
 
 %calcula colunas nos extremos
-calcLados(N,Pos,A1,A2,A3,A4)	:-	calculaLC(N, Pos, A1, A2, A3, A4).	
-calculaLC(N, Pos, A1, A2, A3, A4)	:-	getAdjLE(N, Pos, A1, A2, A3, A4), nl, write('calc 1').
-calculaLC(N, Pos, A1, A2, A3, A4)	:-	getAdjLD(N, Pos, A1, A2, A3, A4), nl, write('calc 2').
+%calcLados(N,Pos,A1,A2,A3,A4)	:-	calculaLC(N, Pos, A1, A2, A3, A4).	
+%calculaLC(N, Pos, A1, A2, A3, A4)	:-	getAdjLE(N, Pos, A1, A2, A3, A4), nl, write('calc 1').
+%calculaLC(N, Pos, A1, A2, A3, A4)	:-	getAdjLD(N, Pos, A1, A2, A3, A4), nl, write('calc 2').
 
-calculaLC(N, Pos, A1, A2, A3, A4)	:-	getAdjLBE(N, Pos, A1, A2, A3, A4), nl, write('calc 3').
-calculaLC(N, Pos, A1, A2, A3, A4)	:-	write('erro calculaLCE').
+%calculaLC(N, Pos, A1, A2, A3, A4)	:-	getAdjLBE(N, Pos, A1, A2, A3, A4), nl, write('calc 3').
+%calculaLC(N, Pos, A1, A2, A3, A4)	:-	getAdjLBD(N, Pos, A1, A2, A3, A4), nl, write('calc 4').
 
+%calculaLC(N, Pos, A1, A2, A3, A4)	:-	write('erro calculaLCE').
+
+%%%%%%%%%%
+
+%%%%%%%%%%%
 
 %Lado esquerdo - linha cima e linha de baixo
 getPosRLE(N, Pos, PosR)	:-	PosR is mod(Pos,(4*N)).

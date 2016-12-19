@@ -18,18 +18,33 @@ getLinhaBaixoAdj(N, Pos, A1, A2, A3, A4)	:-	linhaBaixo(N, Pos), !,
 									
 
 %devolve para pos os indices dos adjacentes	
-calcLB(N,Pos,A1,A2,A3,A4) 	:-	calculaLB(N, Pos, A1, A2, A3, A4).			
-calculaLB(N, Pos, A1, A2, A3, A4) 	:-	getAdjCantoBE(N, Pos, A1, A2, A3, A4), nl,write('calc 1').
-calculaLB(N, Pos, A1, A2, A3, A4) 	:-	getLinhaBaixoF1(N, Pos, A1, A2, A3, A4), nl,write('calc 2').
-calculaLB(N, Pos, A1, A2, A3, A4) 	:-	getLinhaBaixoF2(N, Pos, A1, A2, A3, A4), nl,write('calc 3').
-calculaLB(N, Pos, A1, A2, A3, A4) 	:-	getLinhaBaixoF3(N, Pos, A1, A2, A3, A4), nl,write('calc 4').
-calculaLB(N, Pos, A1, A2, A3, A4) 	:-	getLinhaBaixoF4(N, Pos, A1, A2, A3, A4), nl,write('calc 5').
-calculaLB(N, Pos, A1, A2, A3, A4) 	:-	verifCantoBD(N, Pos, A1, A2, A3, A4), nl,write('calc 6').
-calculaLB(N, Pos, A1, A2, A3, A4) 	:-	getLinhaBaixoBCE(N, Pos, A1, A2, A3, A4), nl,write('calc 7').
-calculaLB(N, Pos, A1, A2, A3, A4) 	:-	getLinhaBaixoBCD(N, Pos, A1, A2, A3, A4), nl,write('calc 8').
-calculaLB(N, Pos, A1, A2, A3, A4) 	:-	getLinhaBaixoBC(N, Pos, A1, A2, A3, A4), nl,write('calc 9').
-calculaLB(N, Pos, A1, A2, A3, A4) 	:- 	write('erro calculaLB').
-	
+%calcLB(N,Pos,A1,A2,A3,A4) 	:-	calculaLB(N, Pos, A1, A2, A3, A4).			
+%calculaLB(N, Pos, A1, A2, A3, A4) 	:-	getAdjCantoBE(N, Pos, A1, A2, A3, A4), nl,write('calc 1').
+%calculaLB(N, Pos, A1, A2, A3, A4) 	:-	getLinhaBaixoF1(N, Pos, A1, A2, A3, A4), nl,write('calc 2').
+%calculaLB(N, Pos, A1, A2, A3, A4) 	:-	getLinhaBaixoF2(N, Pos, A1, A2, A3, A4), nl,write('calc 3').
+%calculaLB(N, Pos, A1, A2, A3, A4) 	:-	getLinhaBaixoF3(N, Pos, A1, A2, A3, A4), nl,write('calc 4').
+%calculaLB(N, Pos, A1, A2, A3, A4) 	:-	getLinhaBaixoF4(N, Pos, A1, A2, A3, A4), nl,write('calc 5').
+%calculaLB(N, Pos, A1, A2, A3, A4) 	:-	verifCantoBD(N, Pos, A1, A2, A3, A4), nl,write('calc 6').
+%calculaLB(N, Pos, A1, A2, A3, A4) 	:-	getLinhaBaixoBCE(N, Pos, A1, A2, A3, A4), nl,write('calc 7').
+%calculaLB(N, Pos, A1, A2, A3, A4) 	:-	getLinhaBaixoBCD(N, Pos, A1, A2, A3, A4), nl,write('calc 8').
+%calculaLB(N, Pos, A1, A2, A3, A4) 	:-	getLinhaBaixoBC(N, Pos, A1, A2, A3, A4), nl,write('calc 9').
+%calculaLB(N, Pos, A1, A2, A3, A4) 	:- 	write('erro calculaLB').
+
+%%%%%%%%%%%%%%%%%%%
+
+calcLBP(N, Pos, A1, A2, A3, A4)	:-	getAdjCantoBE(N, Pos, A1, A2, A3, A4).
+calcLBP(N, Pos, A1, A2, A3, A4) :-	getLinhaBaixoF1(N, Pos, A1, A2, A3, A4).
+calcLBP(N, Pos, A1, A2, A3, A4) :-	getLinhaBaixoF2(N, Pos, A1, A2, A3, A4).
+calcLBP(N, Pos, A1, A2, A3, A4) :-	getLinhaBaixoF3(N, Pos, A1, A2, A3, A4).
+calcLBP(N, Pos, A1, A2, A3, A4) :-	getLinhaBaixoF4(N, Pos, A1, A2, A3, A4).
+calcLBP(N, Pos, A1, A2, A3, A4) :-	getCantoBD(N, Pos, A1, A2, A3, A4).
+
+calcLBB(N, Pos, A1, A2, A3, A4) 	:-	getLinhaBaixoBCE(N, Pos, A1, A2, A3, A4).
+calcLBB(N, Pos, A1, A2, A3, A4) 	:-	getLinhaBaixoBCD(N, Pos, A1, A2, A3, A4).
+calcLBB(N, Pos, A1, A2, A3, A4) 	:-	getLinhaBaixoBC(N, Pos, A1, A2, A3, A4).
+
+%%%%%%%%%%%%%%%%%%%%
+
 
 
 getPosRLinha(N, Pos, PosR) :-	TamL is 4*N,
@@ -128,9 +143,9 @@ verificaLBCD(N, Pos)	:-	getPosRLinha(N, Pos, PosR),
 							Lim is ((4 * N)-1),
 							PosR = Lim,
 							nl, write('Canto direito').
-verifCantoBD(N, Pos, A1, A2, A3, A4)	:-	verificaLBCD(N, Pos), !,
-											verifCantoBDaux(N, Pos, A1, A2, A3, A4).
-verifCantoBDaux(N, Pos, A1, A2, A3, A4)	:-	getPosRLinha(N, Pos, PosR),
+getCantoBD(N, Pos, A1, A2, A3, A4)	:-	verificaLBCD(N, Pos), !,
+											getCantoBDaux(N, Pos, A1, A2, A3, A4).
+getCantoBDaux(N, Pos, A1, A2, A3, A4)	:-	getPosRLinha(N, Pos, PosR),
 												PosRF is PosR - (3*N),
 												Resto is (4*N) - PosR - 1,
 												A1 is Pos - (4*N)+1,
