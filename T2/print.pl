@@ -12,7 +12,9 @@
 %	[]
 % [][][][]
 % 	[]
-display_cube(Cube, N)	:-	nl, nl, display_cubeAux(Cube, N),!.
+display_cube(Cube, N)	:-	nl, nl, 
+							nl,nl,nl,nl,nl,nl,nl,nl,
+							display_cubeAux(Cube, N),!.
 
 
 
@@ -62,7 +64,8 @@ display_cubeF1linha(_, _, 0, _, _, _, _).
 display_cubeF1linha(Cube, NLinhas, NumColunas, LimMin, NL, NC, N)	:-	NumColunas1 is NumColunas - 1,
 																Pos is LimMin + (2*N*NL) + NC,
 																nth0(Pos,Cube,Peca),
-																write(' '), write(Peca),write(' '),
+																translate(Peca,Pc),
+																write(' '), write(Pc),write(' '),
 																NC1 is NC + 1, 
 																display_cubeF1linha(Cube, NLinhas, NumColunas1, LimMin, NL, NC1, N).
 				
@@ -96,14 +99,18 @@ display_cubeFacelinha(_, _, 0, _, _, _, _).
 display_cubeFacelinha(Cube, NLinhas, NumColunas, NLInicial, NL, NC, N)	:-	NumColunas1 is NumColunas - 1,
 																Pos is NLInicial + (4*N*NL) + NC,
 																nth0(Pos,Cube,Peca),
-																write(' '), write(Peca),write(' '),
+																translate(Peca,Pc),
+																write(' '), write(Pc),write(' '),
 																NC1 is NC + 1,
 																display_cubeFacelinha(Cube, NLinhas, NumColunas1, NLInicial, NL, NC1, N).	
 
 
 
-
-																
+%Cores para letra correspondente À cor
+translate(1,'R').
+translate(2,'G').
+translate(3,'B'). 
+translate(4,'Y'). 
 
 
 							
