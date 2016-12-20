@@ -2,7 +2,7 @@
 :- ensure_loaded(lados).
 :- ensure_loaded(paulostuff).
 :- ensure_loaded(print).
-:-dynamic(cube/1).
+
 %Cubo N=3
 cube([
 	%------ F1 -------      ------- F2 --------		------- F3 --------		------- F4 --------					
@@ -61,15 +61,14 @@ while(N, A, Cube,Nr) :-	N1 is N -1,
 						while(N1, A1,Cube,Nr).
 
 
-ttt(X,N):-
-			Tam is 6*N*N,
+ttt(X,N):-	Tam is 6*N*N,
 			length(X,Tam), 
 			domain(X,1,4),
 			while(Tam, 0,X,N),
 			reset_timer,
 			labeling([ffc],X),
-			print_time,
 			display_cube(X,N),
+			print_time,
 			fd_statistics.
 
 			

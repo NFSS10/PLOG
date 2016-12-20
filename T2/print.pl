@@ -4,7 +4,7 @@ dt:- cubet(C), display_cube(C, 3).
 
 
 
-display_cube(Cube, N)	:-	display_cubeF1P(Cube, N).
+display_cube(Cube, N)	:-	display_cubeF1P(Cube, N),!.
 
 %display do topo
 display_cubeF1P(Cube, N)	:-	LimMinF1 is (4*N*N),
