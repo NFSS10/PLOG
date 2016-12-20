@@ -188,41 +188,6 @@ linhaMeioTampas(P,Adj1,Adj2,Adj3,Adj4,N):- findall(I,linhasMeioTampasAux(P,I,N),
 									 nth0(2,Bag,Adj3),
 									 nth0(3,Bag,Adj4).	
 
-%Lado esquerdo topo
-										 
-ladoEsquerdoTopoAux(P,Adj,N):-	Pr is (P-N*N*4)/(2*N),
-								(
-								Adj is round(Pr);
-								Adj is P+1;
-								Adj is P+2*N;
-								Adj is P-2*N
-								).
-
-
-ladoEsquerdoTopo(P,Adj1,Adj2,Adj3,Adj4,N):- findall(I,ladoEsquerdoTopoAux(P,I,N),Bag),
-									 nth0(0,Bag,Adj1),
-									 nth0(1,Bag,Adj2),
-									 nth0(2,Bag,Adj3),
-									 nth0(3,Bag,Adj4).	
-
-
-
-
-%Lado direito topo
-ladoDireitoTopoAux(P,Adj,N):-	Pr is (P-N*N*4)/(2*N),
-								(
-								Adj is round(3*N-1-Pr);
-								Adj is P-1;
-								Adj is P+2*N;
-								Adj is P-2*N
-								).
-
-
-ladoDireitoTopo(P,Adj1,Adj2,Adj3,Adj4,N):- findall(I,ladoDireitoTopoAux(P,I,N),Bag),
-									 nth0(0,Bag,Adj1),
-									 nth0(1,Bag,Adj2),
-									 nth0(2,Bag,Adj3),
-									 nth0(3,Bag,Adj4).	
 
 
 

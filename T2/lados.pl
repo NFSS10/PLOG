@@ -1,23 +1,32 @@
 :- ensure_loaded(util).
 
-%calcula colunas nos extremos
-%calcLados(N,Pos,A1,A2,A3,A4)	:-	calculaLC(N, Pos, A1, A2, A3, A4).	
-%calculaLC(N, Pos, A1, A2, A3, A4)	:-	getAdjLE(N, Pos, A1, A2, A3, A4), nl, write('calc 1').
-%calculaLC(N, Pos, A1, A2, A3, A4)	:-	getAdjLD(N, Pos, A1, A2, A3, A4), nl, write('calc 2').
 
-%calculaLC(N, Pos, A1, A2, A3, A4)	:-	getAdjLBE(N, Pos, A1, A2, A3, A4), nl, write('calc 3').
-%calculaLC(N, Pos, A1, A2, A3, A4)	:-	getAdjLBD(N, Pos, A1, A2, A3, A4), nl, write('calc 4').
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Devolve pecas adjacentes nos lados do cubo%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Ilustração exemplo:
+%			--------------
+%			|x|        |x|
+%			|x|		   |x|
+%			|x|		   |x|						
+%---------------------------------------------------
+%|x|											 |x|	
+%|x|											 |x|
+%|x|											 |x| 
+%---------------------------------------------------
+%			|x|        |x|
+%			|x|		   |x|
+%			|x|		   |x|	
+%			--------------
 
-%calculaLC(N, Pos, A1, A2, A3, A4)	:-	write('erro calculaLCE').
+			
 
-%%%%%%%%%%
-
-%%%%%%%%%%%
-
-%Lado esquerdo - linha cima e linha de baixo
-getPosRLE(N, Pos, PosR)	:-	PosR is mod(Pos,(4*N)).
-
-%verifica se é canto baixo esquerdo										
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%			Centro			%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Lado esquerdo central		
+getPosRLE(N, Pos, PosR)	:-	PosR is mod(Pos,(4*N)).	
+								
 verifLCE(N, Pos)	:-	getPosRLE(N, Pos, PosR),
 						LimMin is (4*N) - 1,
 						LimMax is (4*N*(N-1)),
@@ -31,18 +40,17 @@ getAdjLEaux(N, Pos, A1, A2, A3, A4)	:-	A1 is Pos + 1,
 										A3 is Pos + ((4 * N) - 1),
 										A4 is Pos - (4 * N).
 
+			
 
+			
 										
 										
 										
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%			
-
-						
 										
+%Lado direito central									
 getPosRLD(N, Pos, PosR)	:-	Pos1 is Pos + 1, 
 							getPosRLE(N, Pos1, PosR).
-
-%verifica se é canto baixo esquerdo										
+							
 verifLCD(N, Pos)	:-	getPosRLD(N, Pos, PosR),
 						LimMin is (4*N) - 1,
 						LimMax is (4*N*(N-1)),
@@ -55,13 +63,21 @@ getAdjLDaux(N, Pos, A1, A2, A3, A4)	:-	A1 is Pos - (4 * N) + 1,
 										A2 is Pos + (4 * N),
 										A3 is Pos - 1,
 										A4 is Pos - (4 * N).
-										
 
 
 										
-%Baixo Lado esquerdo										
-getPosRLBE(N, Pos, PosR)	:-	Pos1 is Pos - (4*N*N) - (N*N),
-								PosR is mod(Pos1,(2*N)).
+										
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%										
+										
+										
+										
+	
+	
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%			Base			%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%										
+%Lado esquerdo Base						
 basecolunaE(N, Pos)	:-	0 is mod(Pos,N),
 					Pos>N*N*4.
 
@@ -81,9 +97,12 @@ getAdjLBEaux(N, Pos, A1, A2, A3, A4)	:-	A1 is Pos + 1,
 
 											
 											
-%Baixo Lado direito										
-getPosRLBD(N, Pos, PosR)	:-	Pos1 is Pos - (4*N*N) - (N*N),
-								PosR is mod(Pos1,(2*N)).
+											
+											
+											
+											
+											
+%Lado direito Base						
 basecolunaD(N, Pos)	:-	0 is mod(Pos + 1,2*N),
 						Pos > (N*N*4).
 verifLBD(N, Pos)	:-	basecolunaD(N, Pos),
@@ -99,3 +118,53 @@ getAdjLBDaux(N, Pos, A1, A2, A3, A4)	:-	Pos1 is mod(Pos, (4*N*N + N)),
 											A2 is Pos + (2 * N),
 											A3 is Pos - 1,
 											A4 is Pos - (2 * N).
+
+
+										
+										
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%									
+										
+										
+										
+	
+	
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%			Topo			%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%					
+%Lado esquerdo topo					 
+ladoEsquerdoTopoAux(P,Adj,N):-	Pr is (P-N*N*4)/(2*N),
+								(
+								Adj is round(Pr);
+								Adj is P+1;
+								Adj is P+2*N;
+								Adj is P-2*N
+								).
+ladoEsquerdoTopo(P,Adj1,Adj2,Adj3,Adj4,N):- findall(I,ladoEsquerdoTopoAux(P,I,N),Bag),
+									 nth0(0,Bag,Adj1),
+									 nth0(1,Bag,Adj2),
+									 nth0(2,Bag,Adj3),
+									 nth0(3,Bag,Adj4).	
+									 
+									 
+									 
+									 
+									 
+									 
+									 
+									 
+%Lado direito topo
+ladoDireitoTopoAux(P,Adj,N):-	Pr is (P-N*N*4)/(2*N),
+								(
+								Adj is round(3*N-1-Pr);
+								Adj is P-1;
+								Adj is P+2*N;
+								Adj is P-2*N
+								).
+ladoDireitoTopo(P,Adj1,Adj2,Adj3,Adj4,N):- findall(I,ladoDireitoTopoAux(P,I,N),Bag),
+									 nth0(0,Bag,Adj1),
+									 nth0(1,Bag,Adj2),
+									 nth0(2,Bag,Adj3),
+									 nth0(3,Bag,Adj4).	
+										
+	
