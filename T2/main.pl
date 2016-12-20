@@ -10,6 +10,7 @@
 
 %Devolve as solucoes para o cubo
 %N : Tamanho de aresta "NxNxN"
+solveCube(X,N):-	N < 1, !, nl, write('insira um N valido (N >0)').
 solveCube(X,N):-	Tam is 6*N*N,
 				length(X,Tam), 
 				domain(X,1,4),
