@@ -37,7 +37,7 @@ display_cubeF1espaco(N)	:-	N1 is N - 1,
 
 						
 						
-%display do topo
+%Display do topo
 %	[]
 % --------
 % 	--		
@@ -92,7 +92,7 @@ display_cubeFacelinha(Cube, NLinhas, NumColunas, NLInicial, NL, NC, N)	:-	NumCol
 
 
 																
-%display da base
+%Display da base
 %	--
 % --------
 % 	[]			
