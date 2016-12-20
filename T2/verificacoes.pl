@@ -1,5 +1,6 @@
-:- use_module(library(lists)).
-:- use_module(library(clpfd)).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Verifica a posicao da peca no cubo	  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 verificaAdjLCF1(P,Adj,N):-	P \= 0,

@@ -1,4 +1,4 @@
-:- ensure_loaded(util).
+:- use_module(library(lists)).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

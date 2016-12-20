@@ -2,6 +2,10 @@
 :- ensure_loaded(lados).
 :- ensure_loaded(linha_cima).
 :- ensure_loaded(print).
+:- ensure_loaded(verificacoes).
+:- ensure_loaded(meio).
+:- use_module(library(lists)).
+:- use_module(library(clpfd)).
 
 %Cubo N=3
 cube([
