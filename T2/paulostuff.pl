@@ -193,46 +193,7 @@ linhaMeioTampas(P,Adj1,Adj2,Adj3,Adj4,N):- findall(I,linhasMeioTampasAux(P,I,N),
 
 
 
-%Linha baixo topo
 
-verificaAdjLBF7(P,Adj,N):- 	Pr is P-(N*N*4+(N-1)*N*2),
-							(
-							Adj is P+1;
-							Adj is P-1;
-							Adj is N+Pr;
-							Adj is P-2*N
-							).
-
-
-verificaAdjC7(P,Adj,N):- 	Adj is P+1;
-							Adj is N-1;
-							Adj is N;
-							Adj is P-2*N.
-							
-verificaAdjC8(P,Adj,N):- 	Adj is P-1;
-							Adj is 2*N-1;
-							Adj is 2*N;
-							Adj is P-2*N.
-
-
-
-linhaBaixoTopoAux(P,Adj,N):- P >  (N*N*4+N*N*2)-2*N,
-						P < N*N*4+N*N*2-N-1,
-						verificaAdjLBF7(P,Adj,N).	
-						
-linhaBaixoTopoAux(P,Adj,N):- P is (N*N*4+N*N*2)-2*N,
-						verificaAdjC7(P,Adj,N).	
-						
-linhaBaixoTopoAux(P,Adj,N):- P is N*N*4+N*N*2-N-1,
-						verificaAdjC8(P,Adj,N).	
-						
-
-
-ladoBaixoTopo(P,Adj1,Adj2,Adj3,Adj4,N):- findall(I,linhaBaixoTopoAux(P,I,N),Bag),
-									 nth0(0,Bag,Adj1),
-									 nth0(1,Bag,Adj2),
-									 nth0(2,Bag,Adj3),
-									 nth0(3,Bag,Adj4).	
 
 
 

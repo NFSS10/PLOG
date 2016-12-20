@@ -1,37 +1,30 @@
 :- ensure_loaded(util).
 
 
-%verifica se pertence a linha de baixo				
-linhaBaixo(N, Pos)	:-	TamL is 4*N,
-						Col is N-1,
-						LimMin is TamL * Col,
-						LimMax is LimMin + TamL,
-						Pos >= LimMin, !,
-						Pos < LimMax,
-						nl, write('Linha Baixo').
-			
-%calcula linha de baixo			
-getLinhaBaixoAdj(N, Pos, A1, A2, A3, A4)	:-	linhaBaixo(N, Pos), !,
-												calculaLB(N, Pos, A1, A2, A3, A4),
-												nl, write('finish').
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Devolve pecas adjacentes das linhas de baixo do cubo %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Ilustração exemplo:
+%			---------------
+%			|             |
+%			|		      |
+%			|x||x||x||x||x|						
+%---------------------------------------------------
+%|											       |	
+%|											       |
+%|x||x||x||x||x||x||x||x||x||x||x||x||x||x||x||x||x| 
+%---------------------------------------------------
+%			|             |
+%			|  		      |
+%			|x||x||x||x||x|	
+%			--------------
 
-									
 
-%devolve para pos os indices dos adjacentes	
-%calcLB(N,Pos,A1,A2,A3,A4) 	:-	calculaLB(N, Pos, A1, A2, A3, A4).			
-%calculaLB(N, Pos, A1, A2, A3, A4) 	:-	getAdjCantoBE(N, Pos, A1, A2, A3, A4), nl,write('calc 1').
-%calculaLB(N, Pos, A1, A2, A3, A4) 	:-	getLinhaBaixoF1(N, Pos, A1, A2, A3, A4), nl,write('calc 2').
-%calculaLB(N, Pos, A1, A2, A3, A4) 	:-	getLinhaBaixoF2(N, Pos, A1, A2, A3, A4), nl,write('calc 3').
-%calculaLB(N, Pos, A1, A2, A3, A4) 	:-	getLinhaBaixoF3(N, Pos, A1, A2, A3, A4), nl,write('calc 4').
-%calculaLB(N, Pos, A1, A2, A3, A4) 	:-	getLinhaBaixoF4(N, Pos, A1, A2, A3, A4), nl,write('calc 5').
-%calculaLB(N, Pos, A1, A2, A3, A4) 	:-	verifCantoBD(N, Pos, A1, A2, A3, A4), nl,write('calc 6').
-%calculaLB(N, Pos, A1, A2, A3, A4) 	:-	getLinhaBaixoBCE(N, Pos, A1, A2, A3, A4), nl,write('calc 7').
-%calculaLB(N, Pos, A1, A2, A3, A4) 	:-	getLinhaBaixoBCD(N, Pos, A1, A2, A3, A4), nl,write('calc 8').
-%calculaLB(N, Pos, A1, A2, A3, A4) 	:-	getLinhaBaixoBC(N, Pos, A1, A2, A3, A4), nl,write('calc 9').
-%calculaLB(N, Pos, A1, A2, A3, A4) 	:- 	write('erro calculaLB').
 
-%%%%%%%%%%%%%%%%%%%
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%			Centro			%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%		
 calcLBP(N, Pos, A1, A2, A3, A4)	:-	getAdjCantoBE(N, Pos, A1, A2, A3, A4).
 calcLBP(N, Pos, A1, A2, A3, A4) :-	getLinhaBaixoF1(N, Pos, A1, A2, A3, A4).
 calcLBP(N, Pos, A1, A2, A3, A4) :-	getLinhaBaixoF2(N, Pos, A1, A2, A3, A4).
@@ -39,11 +32,6 @@ calcLBP(N, Pos, A1, A2, A3, A4) :-	getLinhaBaixoF3(N, Pos, A1, A2, A3, A4).
 calcLBP(N, Pos, A1, A2, A3, A4) :-	getLinhaBaixoF4(N, Pos, A1, A2, A3, A4).
 calcLBP(N, Pos, A1, A2, A3, A4) :-	getCantoBD(N, Pos, A1, A2, A3, A4).
 
-calcLBB(N, Pos, A1, A2, A3, A4) 	:-	getLinhaBaixoBCE(N, Pos, A1, A2, A3, A4).
-calcLBB(N, Pos, A1, A2, A3, A4) 	:-	getLinhaBaixoBCD(N, Pos, A1, A2, A3, A4).
-calcLBB(N, Pos, A1, A2, A3, A4) 	:-	getLinhaBaixoBC(N, Pos, A1, A2, A3, A4).
-
-%%%%%%%%%%%%%%%%%%%%
 
 
 
@@ -52,11 +40,7 @@ getPosRLinha(N, Pos, PosR) :-	TamL is 4*N,
 							LimMin is TamL * Col,
 							PosR is Pos - LimMin.						
 												
-					
-												
-
-%Linha de baixo do principal
-%vbaixo canto esquerdo									
+%Baixo canto esquerdo									
 verifCantoBE(N, Pos)	:-	TamL is 4*N,
 					Col is N-1,
 					LimMin is TamL * Col,
@@ -70,9 +54,8 @@ getAdjCantoBEaux(N, Pos, A1, A2, A3, A4)	:-	A1 is Pos + 1,
 												A4 is Pos - (4 * N).
 
 												
-												
-												
-%baixo face 1
+																								
+%Baixo face 1
 verificaLBF1(N, Pos)	:-	getPosRLinha(N, Pos, PosR),
 							PosR > 0, !,
 							PosR < N,
@@ -87,10 +70,8 @@ getLinhaBaixoF1aux(N, Pos, A1, A2, A3, A4)	:-	getPosRLinha(N, Pos, PosR),
 											A4 is Pos - (4 * N).
 												
 										
-
-
-
-%baixo face 2
+										
+%Baixo face 2
 verificaLBF2(N, Pos)	:-	getPosRLinha(N, Pos, PosR),
 							PosR >= N, !,
 							PosR < 2*N,
@@ -101,12 +82,10 @@ getLinhaBaixoF2aux(N, Pos, A1, A2, A3, A4)	:-	A1 is Pos + 1,
 												A2 is Pos + (4 * N),
 												A3 is Pos  - 1,
 												A4 is Pos - (4 * N).
-												
-												
-												
+
 												
 
-%baixo face 3
+%Baixo face 3
 verificaLBF3(N, Pos)	:-	getPosRLinha(N, Pos, PosR),
 							PosR >= (2*N), !,
 							PosR < 3*N,
@@ -121,8 +100,9 @@ getLinhaBaixoF3aux(N, Pos, A1, A2, A3, A4)	:-	getPosRLinha(N, Pos, PosR),
 												A3 is Pos  - 1,
 												A4 is Pos - (4 * N).												
 												
-
-%baixo face4
+												
+												
+%Baixo face4
 verificaLBF4(N, Pos)	:-	getPosRLinha(N, Pos, PosR),
 							PosR >= (3*N), !,
 							PosR < ((4*N) - 1),
@@ -137,6 +117,9 @@ getLinhaBaixoF4aux(N, Pos, A1, A2, A3, A4)	:-	getPosRLinha(N, Pos, PosR),
 												A3 is Pos  - 1,
 												A4 is Pos - (4 * N).	
 
+												
+												
+												
 %Baixo canto direito
 verificaLBCD(N, Pos)	:-	getPosRLinha(N, Pos, PosR),
 							Lim is ((4 * N)-1),
@@ -151,18 +134,30 @@ getCantoBDaux(N, Pos, A1, A2, A3, A4)	:-	getPosRLinha(N, Pos, PosR),
 												A2 is Pos + Resto + ((2*N) * N) - PosRF,
 												A3 is Pos  - 1,
 												A4 is Pos - (4 * N).	
+										
+										
+										
+										
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%										
+										
+										
+										
+	
+	
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%			Base			%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
+calcLBB(N, Pos, A1, A2, A3, A4) 	:-	getLinhaBaixoBCE(N, Pos, A1, A2, A3, A4).
+calcLBB(N, Pos, A1, A2, A3, A4) 	:-	getLinhaBaixoBCD(N, Pos, A1, A2, A3, A4).
+calcLBB(N, Pos, A1, A2, A3, A4) 	:-	getLinhaBaixoBC(N, Pos, A1, A2, A3, A4).										
 
-%##############################################################
 
 
-
-												
-												
-%BASE------------------------------------------------------												
 									
 getPosRLinhaBB(N, Pos, PosR)	:-	Meio is 4*N*N,
 									PosR is Pos - Meio - ((2*N)*(N-1)) - N.
-%Baixo, canto esquerdo									
+%Base, canto esquerdo									
 verificaLBBCE(N, Pos)	:-	getPosRLinhaBB(N, Pos, PosR),
 							PosR = 0,
 							nl, write('Baixo Linha Baixo Canto esquerdo').
@@ -173,9 +168,10 @@ getLinhaBaixoBCEaux(N, Pos, A1, A2, A3, A4)	:-	getPosRLinhaBB(N, Pos, PosR),
 												A2 is ((4*N*N) - 1),
 												A3 is (4*N*N) - (4*N) ,
 												A4 is Pos - (2 * N).													
-												
+											
+											
 
-%Baixo, canto direito
+%Base, canto direito
 verificaLBBCD(N, Pos)	:-	getPosRLinhaBB(N, Pos, PosR),
 							Lim is (N -1),
 							PosR = Lim,
@@ -188,7 +184,10 @@ getLinhaBaixoBCDaux(N, Pos, A1, A2, A3, A4)	:-	Dif is ((6*N*N) - (2*N*N)) - N,
 												A3 is Pos - 1,
 												A4 is Pos - (2 * N).								
 
-%Baixo, centro
+												
+												
+												
+%Base, centro
 verificaLBBC(N, Pos)	:-	getPosRLinhaBB(N, Pos, PosR),
 							LimMax is (N -1),
 							PosR > 0, !,
@@ -201,6 +200,57 @@ getLinhaBaixoBCaux(N, Pos, A1, A2, A3, A4)	:-	getPosRLinhaBB(N, Pos, PosR),
 												A2 is ((4*N*N) - PosR - 1),
 												A3 is Pos - 1,
 												A4 is Pos - (2 * N).
+										
+										
+										
+										
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%										
+										
+										
+										
+	
+	
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%			Topo			%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
+verificaAdjLBF7(P,Adj,N):- 	Pr is P-(N*N*4+(N-1)*N*2),
+							(
+							Adj is P+1;
+							Adj is P-1;
+							Adj is N+Pr;
+							Adj is P-2*N
+							).
+
+verificaAdjC7(P,Adj,N):- 	Adj is P+1;
+							Adj is N-1;
+							Adj is N;
+							Adj is P-2*N.
+							
+verificaAdjC8(P,Adj,N):- 	Adj is P-1;
+							Adj is 2*N-1;
+							Adj is 2*N;
+							Adj is P-2*N.
+
+
+
+linhaBaixoTopoAux(P,Adj,N):- P >  (N*N*4+N*N*2)-2*N,
+						P < N*N*4+N*N*2-N-1,
+						verificaAdjLBF7(P,Adj,N).	
+						
+linhaBaixoTopoAux(P,Adj,N):- P is (N*N*4+N*N*2)-2*N,
+						verificaAdjC7(P,Adj,N).	
+						
+linhaBaixoTopoAux(P,Adj,N):- P is N*N*4+N*N*2-N-1,
+						verificaAdjC8(P,Adj,N).	
+						
+
+
+ladoBaixoTopo(P,Adj1,Adj2,Adj3,Adj4,N):- findall(I,linhaBaixoTopoAux(P,I,N),Bag),
+									 nth0(0,Bag,Adj1),
+									 nth0(1,Bag,Adj2),
+									 nth0(2,Bag,Adj3),
+									 nth0(3,Bag,Adj4).	
 
 
 						
