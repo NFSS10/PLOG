@@ -11,7 +11,9 @@ Implementation of the game Otrio using Prolog. For more information about the im
 
 ### How to run
 In SICStus do:
+
 1º consult -> "main.pl"
+
 2º Execute: "playGame"
 
 <hr>
@@ -21,7 +23,11 @@ Implementation of a solution for the CuMadness problem using Prolog. For more in
 
 ### How to run
 In SICStus do:
+
 1º consult -> "main.pl"
+
 2º Get the solution by executing: "solveCube(X,N)." where N is the size of edge of the cube to solve (N > 0).
+
+
 
 A solution is then showed and the user is asked to interact with the console. The user can then: execute "n." for another solution or execute "y." to close the console.
